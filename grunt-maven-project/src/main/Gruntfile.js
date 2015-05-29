@@ -15,12 +15,15 @@
                 options: {
                     files: ['bower.json'],
                     updateConfigs: ['bower'],
-                    commit: false,
+                    commit: true,
+                    commitMessage: 'Release v<%=bower.version%>',
+                    commitFiles: ['bower.json'],
                     createTag: false,
-                    push: false,
+                    push: true,
+                    pushTo: 'origin',
                     globalReplace: false,
                     prereleaseName: false,
-                    regExp: "\"version\" : \"\d\.\d.\d\""
+                    regExp:false
                 }
             },
         	 mavenPrepare: {
@@ -33,7 +36,7 @@
         		  mavenDist: {
         		    options: {
         		      warName: 'grunt-maven-project',
-        		      deliverables: ['app/**/*.min.*'],
+        		      deliverables: ['app/**/*.min.*','bower.json'],
         		      gruntDistDir: 'dist'
         		    },
         		    dist: {}
@@ -57,16 +60,17 @@
         		if(target=== undefined && target===""){
         			target="1"
         		}
-        	        var projectFile='bower.json';
-        	        if(!grunt.file.exists(projectFile)){
+        	        var projectFile='webapp/app/app.min.js';
+        	var file=grunt.file.read(projectFile);
+        	        if(!file){
         	            grunt.fail.warn('file'+projectFile+'not found');
         	        }
         	        else{
-        	            grunt.log.ok('the file exists');
-        	            var jsonval=grunt.file.readJSON(projectFile);
+        	            grunt.log.writeln(file);
+        	           // var jsonval=grunt.file.readJSON(projectFile);
         	            //grunt.log.writeln(JSON.stringify(jsonval.version));
-        	            jsonval.version='build# '+target;
-        	            grunt.file.write(projectFile, JSON.stringify(jsonval));
+        	            //jsonval.version='build# '+target;
+        	           // grunt.file.write(projectFile, JSON.stringify(jsonval));
         	        }
         	    });
 
@@ -75,7 +79,7 @@
         grunt.loadNpmTasks('grunt-contrib-concat');
         grunt.loadNpmTasks('grunt-bump');
         /*Default task to Run*/
-        grunt.registerTask('default', ['mavenPrepare','readFromFile','concat','mavenDist']);
+        grunt.registerTask('default', ['bump-only:prerelease','mavenPrepare','concat','mavenDist']);
     };
 
 })();
