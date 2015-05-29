@@ -1,0 +1,2348 @@
+{
+    "main": [
+        {
+            "type": "leafWArgsMenu",
+            "id": "dashboard",
+            "label": "Dashboard",
+            "partial": "nxComponents/nxDashboard/nxDefault.html",
+            "closeable": false,
+            "icon": "fa fa-home",
+            "modal": false,
+            "url": null,
+            "args": {
+                "entityName": null,
+                "form": null,
+                "operation": null,
+                "processName": null,
+                "includeInfoTasks": null
+            },
+            "requiredEntitlements" : ["VIEW_DASHBOARD"]
+        },
+        {
+            "type": "rootMenu",
+            "id": "tasks",
+            "label": "Manage Tasks",
+            "icon": "fa fa-tasks",
+            "children": [
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "nxTaskList",
+                    "label": "Tasks List",
+                    "partial": "nxComponents/nxTaskList/nxTaskListDataBrowserHost.html",
+                    "closeable": true,
+                    "icon": "fa fa-tasks",
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "viewConfig": "com.sungard.cm.ptp.entities.taskmanager.Task"
+                    },
+                    "requiredEntitlements" : ["VIEW_TASK_HISTORY"],
+                    "actions" : [ {
+                        				"id":"taskHistoryAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["VIEW_TASK_HISTORY"],
+                        				"args" : {
+                        					"actionName" : "SHOWHISTORY"
+                        				}
+                					 }]
+                },
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "taskActions",
+                    "label": "Task Actions",
+                    "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                    "closeable": true,
+                    "icon": "fa fa-tasks",
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "viewConfig": "com.sungard.cm.ptp.entities.taskmanager.TaskAction"
+                    },
+                    "requiredEntitlements" : ["VIEW_TASK_ACTION"]
+                },
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "taskResolution",
+                    "label": "Task Resolutions",
+                    "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                    "closeable": true,
+                    "icon": "fa fa-tasks",
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "viewConfig": "com.sungard.cm.ptp.entities.taskmanager.TaskResolution"
+                    },
+                    "requiredEntitlements" : ["VIEW_TASK_RESOLUTION"]
+                }
+            ]
+        },
+        {
+            "type": "leafMenu",
+            "id": "uploadDataFile",
+            "label": "Upload",
+            "partial": "nxComponents/nxUpload/nxUpload.html",
+            "closeable": true,
+            "controller":"nxUploadCtrl",
+            "icon": "fa fa-upload",
+            "modal": true,
+            "url": null,
+            "requiredEntitlements" : ["UPLOAD_ENTITIES"]
+        },
+        {
+            "type": "rootMenu",
+            "id": "trade",
+            "label": "Clearing management",
+            "icon": "fa fa-exchange",
+            "children": [
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "tradeBrowser",
+                    "label": "Trades",
+                    "partial": "nxFunctional/nxTradeCommonDataBrowser/nxTradeCommonDataBrowserHost.html",
+                    "closeable": true,
+                    "icon": "fa fa-table",
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "viewConfig": "com.sungard.cm.ptp.entities.trade.Trade"
+                    },
+                     "requiredEntitlements" : ["VIEW_TRADE","EDIT_TRADE","ADD_TRADE","DELETE_TRADE","EDIT_GIVEUP", "CANCEL_GIVEUP"],
+                      "actions" : [ {
+                        				"id":"tradeViewAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["VIEW_TRADE"],
+                        				"args" : {
+                        					"actionName" : "VIEW"
+                        				}
+                					 },
+                        			 {
+                        				"id":"tradeEditAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["EDIT_TRADE"],
+                        				"args" : {
+                        					"actionName" : "EDIT"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"tradeAddAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["ADD_TRADE"],
+                        				"args" : {
+                        					"actionName" : "ADD"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"tradeDeleteAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["DELETE_TRADE"],
+                        				"args" : {
+                        					"actionName" : "DELETE"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"tradeEditGiveUpAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["EDIT_GIVEUP"],
+                        				"args" : {
+                        					"actionName" : "EDITGIVEUP"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"tradeEditGiveUpAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["CANCEL_GIVEUP"],
+                        				"args" : {
+                        					"actionName" : "CANCELGIVEUP"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"tradeAllocateTradeAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["EDIT_TRADE"],
+                        				"args" : {
+                        					"actionName" : "ALLOCATETRADE"
+                        				}
+                        			 },
+                        			 {
+										"id":"tradeEditGiveInAction",
+										"type" : "action",
+										"requiredEntitlements" : ["EDIT_TRADE"],
+										"args" : {
+											"actionName" : "GIVEINREJECTION"
+										}
+									}]
+                },
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "allocationBrowser",
+                    "label": "Allocations",
+                    "partial": "nxFunctional/nxTradeCommonDataBrowser/nxTradeCommonDataBrowserHost.html",
+                    "closeable": true,
+                    "icon": "fa fa-table",
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "viewConfig": "com.sungard.cm.ptp.entities.allocation.Allocation"
+                    },
+                    "requiredEntitlements" : ["ADD_ALLOCATION","EDIT_ALLOCATION","DELETE_ALLOCATION","VIEW_ALLOCATION", "EDIT_GIVEUP"],
+                     "actions" : [ {
+                        				"id":"allocationViewAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["VIEW_ALLOCATION"],
+                        				"args" : {
+                        					"actionName" : "VIEW"
+                        				}
+                					 },
+                        			 {
+                        				"id":"allocationEditAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["EDIT_ALLOCATION"],
+                        				"args" : {
+                        					"actionName" : "EDIT"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"allocationAddAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["ADD_ALLOCATION"],
+                        				"args" : {
+                        					"actionName" : "ADD"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"allocationDeleteAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["DELETE_ALLOCATION"],
+                        				"args" : {
+                        					"actionName" : "DELETE"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"allocationCloneAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["EDIT_ALLOCATION"],
+                        				"args" : {
+                        					"actionName" : "CLONE"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"allocationEditGiveUpAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["EDIT_GIVEUP"],
+                        				"args" : {
+                        					"actionName" : "EDITGIVEUP"
+                        				}
+                        			 }]
+                },
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "orderBrowser",
+                    "label": "Orders",
+                    "partial": "nxFunctional/nxTradeCommonDataBrowser/nxTradeCommonDataBrowserHost.html",
+                    "closeable": true,
+                    "icon": "fa fa-table",
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "viewConfig": "com.sungard.cm.ptp.entities.order.Order"
+                    },
+                    "requiredEntitlements" :["VIEW_ORDER","EDIT_ORDER","ADD_ORDER","DELETE_ORDER"],
+                    "actions" : [ {
+                        				"id":"orderViewAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["VIEW_ORDER"],
+                        				"args" : {
+                        					"actionName" : "VIEW"
+                        				}
+                					 },
+                        			 {
+                        				"id":"orderCommonEditAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["EDIT_ORDER"],
+                        				"args" : {
+                        					"actionName" : "EDIT"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"orderCommonAddAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["ADD_ORDER"],
+                        				"args" : {
+                        					"actionName" : "ADD"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"orderCommonDeleteAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["DELETE_ORDER"],
+                        				"args" : {
+                        					"actionName" : "DELETE"
+                        				}
+                        			 }]
+                },
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "tnTradeBrowser",
+                    "label": "T+n Trades",
+                    "partial": "nxFunctional/nxTradeCommonDataBrowser/nxTradeCommonDataBrowserHost.html",
+                    "closeable": true,
+                    "icon": "fa fa-table",
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "viewConfig": "com.sungard.cm.ptp.entities.trade.TNTrade"
+                    },
+                    "requiredEntitlements" : ["VIEW_TRADE","EDIT_TRADE","ADD_TRADE","DELETE_TRADE","EDIT_GIVEUP", "CANCEL_GIVEUP"],
+                     "actions" : [ {
+                        				"id":"tradeT+1ViewAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["VIEW_TRADE"],
+                        				"args" : {
+                        					"actionName" : "VIEW"
+                        				}
+                					 },
+                        			 {
+                        				"id":"tradeT+1EditAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["EDIT_TRADE"],
+                        				"args" : {
+                        					"actionName" : "EDIT"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"tradeT+1AddAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["ADD_TRADE"],
+                        				"args" : {
+                        					"actionName" : "ADD"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"tradeT+1DeleteAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["DELETE_TRADE"],
+                        				"args" : {
+                        					"actionName" : "DELETE"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"tradeT+1EditGiveUpAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["EDIT_GIVEUP"],
+                        				"args" : {
+                        					"actionName" : "EDITGIVEUP"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"tradeEditGiveUpAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["CANCEL_GIVEUP"],
+                        				"args" : {
+                        					"actionName" : "CANCELGIVEUP"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"tradeAllocateTradeAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["EDIT_TRADE"],
+                        				"args" : {
+                        					"actionName" : "ALLOCATETRADE"
+                        				}
+                        			 },
+                        			 {
+										"id":"tradeEditGiveInAction",
+										"type" : "action",
+										"requiredEntitlements" : ["EDIT_TRADE"],
+										"args" : {
+											"actionName" : "GIVEINREJECTION"
+										}
+									}]
+                },
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "tnAllocationBrowser",
+                    "label": "T+n Allocations",
+                    "partial": "nxFunctional/nxTradeCommonDataBrowser/nxTradeCommonDataBrowserHost.html",
+                    "closeable": true,
+                    "icon": "fa fa-table",
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "viewConfig": "com.sungard.cm.ptp.entities.allocation.TNAllocation"
+                    },
+                    "requiredEntitlements" : ["ADD_ALLOCATION","EDIT_ALLOCATION","DELETE_ALLOCATION","VIEW_ALLOCATION","EDIT_GIVEUP"],
+                    "actions" : [ {
+                        				"id":"tnAllocationViewAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["VIEW_ALLOCATION"],
+                        				"args" : {
+                        					"actionName" : "VIEW"
+                        				}
+                					 },
+                        			 {
+                        				"id":"tnAllocationEditAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["EDIT_ALLOCATION"],
+                        				"args" : {
+                        					"actionName" : "EDIT"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"tnAllocationAddAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["ADD_ALLOCATION"],
+                        				"args" : {
+                        					"actionName" : "ADD"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"tnAllocationDeleteAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["DELETE_ALLOCATION"],
+                        				"args" : {
+                        					"actionName" : "DELETE"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"allocationT+nCloneAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["EDIT_ALLOCATION"],
+                        				"args" : {
+                        					"actionName" : "CLONE"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"allocationT+1EditGiveUpAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["EDIT_GIVEUP"],
+                        				"args" : {
+                        					"actionName" : "EDITGIVEUP"
+                        				}
+                        			 }]
+                },
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "tnOrderBrowser",
+                    "label": "T+n Orders",
+                    "partial": "nxFunctional/nxTradeCommonDataBrowser/nxTradeCommonDataBrowserHost.html",
+                    "closeable": true,
+                    "icon": "fa fa-table",
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "viewConfig": "com.sungard.cm.ptp.entities.order.TNOrder"
+                    },
+                    "requiredEntitlements" :["VIEW_ORDER","EDIT_ORDER","ADD_ORDER","DELETE_ORDER"],
+                    "actions" : [ {
+                        				"id":"tnOrderViewAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["VIEW_ORDER"],
+                        				"args" : {
+                        					"actionName" : "VIEW"
+                        				}
+                					 },
+                        			 {
+                        				"id":"tnOrderCommonEditAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["EDIT_ORDER"],
+                        				"args" : {
+                        					"actionName" : "EDIT"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"tnOrderCommonAddAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["ADD_ORDER"],
+                        				"args" : {
+                        					"actionName" : "ADD"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"tnOrderCommonDeleteAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["DELETE_ORDER"],
+                        				"args" : {
+                        					"actionName" : "DELETE"
+                        				}
+                        			 }]
+                },
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "addTrade",
+                    "label": "Add Trade",
+                    "partial": "nxComponents/nxEntityEditor/nxEntityEditorHost.html",
+                    "closeable": true,
+                    "icon": "fa fa-edit",
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "entityName": "com.sungard.cm.ptp.entities.trade.Trade",
+                        "form": "nxFunctional/nxTrade/nxTradeEditor",
+                        "operation": "addEntity",
+                        "processName": null,
+                        "includeInfoTasks": null
+                    },
+                    "requiredEntitlements" : ["ADD_TRADE"]
+                },
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "addAllocation",
+                    "label": "Add Allocation",
+                    "partial": "nxComponents/nxEntityEditor/nxEntityEditorHost.html",
+                    "closeable": true,
+                    "icon": "fa fa-edit",
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "entityName": "com.sungard.cm.ptp.entities.allocation.Allocation",
+                        "form": "nxFunctional/nxAllocation/nxAllocation",
+                        "operation": "addEntity",
+                        "processName": null,
+                        "includeInfoTasks": null
+                    },
+                    "requiredEntitlements" : ["ADD_ALLOCATION"]
+                },
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "addFilledOrder",
+                    "label": "Add Order",
+                    "partial": "nxComponents/nxEntityEditor/nxEntityEditorHost.html",
+                    "closeable": true,
+                    "icon": "fa fa-edit",
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "entityName": "com.sungard.cm.ptp.entities.order.Order",
+                        "form": "nxFunctional/nxFilledOrder/nxFilledOrder",
+                        "operation": "addEntity",
+                        "processName": null,
+                        "includeInfoTasks": null
+                    },
+                    "requiredEntitlements" : ["ADD_ORDER"]
+                },
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "feeBrowser",
+                    "label": "Fees",
+                    "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                    "closeable": true,
+                    "icon": "fa fa-table",
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "viewConfig": "com.sungard.cm.ptp.entities.fee.Fee"
+                    },
+                    "requiredEntitlements" : ["VIEW_FEES"],
+                    "actions" : [ {
+                        				"id":"feeViewAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["VIEW_FEES"],
+                        				"args" : {
+                        					"actionName" : "VIEW"
+                        				}
+                					 }]
+                },
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "offsetPairBrowser",
+                    "label": "Offset Pairs",
+                    "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                    "closeable": true,
+                    "icon": "fa fa-table",
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "viewConfig": "com.sungard.cm.ptp.entities.offseting.OffsetPair"
+                    },
+                    "requiredEntitlements" : ["VIEW_OFFSET_PAIRS"]
+                },
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "assetMovementBrowser",
+                    "label": "Asset Movement",
+                    "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                    "closeable": true,
+                    "icon": "fa fa-table",
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "viewConfig": "com.sungard.cm.ptp.entities.assetmovement.AssetMovement"
+                    },
+                    "requiredEntitlements" : ["ADD_ASSET_MOVEMENT","EDIT_ASSET_MOVEMENT","DELETE_ASSET_MOVEMENT","VIEW_ASSET_MOVEMENT"],
+                     "actions" : [ {
+                        				"id":"assetMovementViewAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["VIEW_ASSET_MOVEMENT"],
+                        				"args" : {
+                        					"actionName" : "VIEW"
+                        				}
+                					 },
+                        			 {
+                        				"id":"assetMovementEditAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["EDIT_ASSET_MOVEMENT"],
+                        				"args" : {
+                        					"actionName" : "EDIT"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"assetMovementAddAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["ADD_ASSET_MOVEMENT"],
+                        				"args" : {
+                        					"actionName" : "ADD"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"assetMovementDeleteAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["DELETE_ASSET_MOVEMENT"],
+                        				"args" : {
+                        					"actionName" : "DELETE"
+                        				}
+                        			 }]
+                }
+
+            ]
+        },
+        {
+            "type": "rootMenu",
+            "id": "historical",
+            "label": "Historical view",
+            "icon": "fa fa-history",
+            "children": [
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "historicalTradeBrowser",
+                    "label": "Historical Trades",
+                    "partial": "nxFunctional/nxTradeCommonDataBrowser/nxTradeCommonDataBrowserHost.html",
+                    "closeable": true,
+                    "icon": "fa fa-table",
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "viewConfig": "com.sungard.cm.ptp.entities.trade.HistoricalTrade"
+                    },
+                    "requiredEntitlements" : ["VIEW_TRADE"]
+                },
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "historicalOrderBrowser",
+                    "label": "Historical Orders",
+                    "partial": "nxFunctional/nxTradeCommonDataBrowser/nxTradeCommonDataBrowserHost.html",
+                    "closeable": true,
+                    "icon": "fa fa-table",
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "viewConfig": "com.sungard.cm.ptp.entities.order.HistoricalOrder"
+                    },
+                    "requiredEntitlements" : ["VIEW_ORDER"]
+                },
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "historicalAllocationBrowser",
+                    "label": "Historical Allocations",
+                    "partial": "nxFunctional/nxTradeCommonDataBrowser/nxTradeCommonDataBrowserHost.html",
+                    "closeable": true,
+                    "icon": "fa fa-table",
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "viewConfig": "com.sungard.cm.ptp.entities.allocation.HistoricalAllocation"
+                    },
+                    "requiredEntitlements" : ["VIEW_ALLOCATION"]
+                }
+            ]
+        },
+        {
+            "type": "rootMenu",
+            "id": "balances",
+            "label": "Balances",
+            "icon": "fa fa-columns",
+            "children": [
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "accountingBalanceBrowser",
+                    "label": "Accounting Balance",
+                    "partial": "nxFunctional/nxAccountingBalance/nxAccountingBalance.html",
+                    "closeable": true,
+                    "icon": "fa fa-table",
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "viewConfig": "com.sungard.cm.ptp.entities.accounting.accountingbalance.AccountingBalance"
+                    },
+                    "requiredEntitlements" : ["VIEW_ACCOUNTING_BALANCE"],
+                     "actions" : [ {
+                        				"id":"accountingBalanceViewAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["VIEW_ACCOUNTING_BALANCE"],
+                        				"args" : {
+                        					"actionName" : "VIEW"
+                        				}
+                					 }]
+                },
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "accountingBalanceChangeBrowser",
+                    "label": "Accounting Balance Change",
+                    "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                    "closeable": true,
+                    "icon": "fa fa-table",
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "viewConfig": "com.sungard.cm.ptp.entities.accounting.accountingbalance.AccountingBalanceChange"
+                    },
+                     "requiredEntitlements" : ["VIEW_ACCOUNTING_BALANCE_CHANGE"],
+                     "actions" : [ {
+                        				"id":"accountingBalanceChangeViewAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["VIEW_ACCOUNTING_BALANCE_CHANGE"],
+                        				"args" : {
+                        					"actionName" : "VIEW"
+                        				}
+                					 }]
+                },
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "initialMarginBrowser",
+                    "label": "Initial Margins",
+                    "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                    "closeable": true,
+                    "icon": "fa fa-table",
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "viewConfig": "com.sungard.cm.ptp.entities.initialmargin.InitialMargin"
+                    },
+                    "requiredEntitlements" : ["VIEW_INITIAL_MARGINS"]
+                }
+            ]
+        },
+        {
+            "type": "rootMenu",
+            "id": "referential",
+            "label": "Referential",
+            "children": [
+                {
+                    "type": "rootMenu",
+                    "id": "accountingBalanceReferential",
+                    "label": "Accounting Balance",
+                    "children": [
+                        {
+                            "type": "leafWArgsMenu",
+                            "id": "accountingKeyStructureBrowser",
+                            "label": "Accounting Key Structure",
+                            "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                            "closeable": true,
+                            "icon": "fa fa-table",
+                            "modal": false,
+                            "url": null,
+                            "args": {
+                                "viewConfig": "com.sungard.cm.ptp.entities.accounting.accountingbalance.AccountingKeyStructure"
+                            },
+                            "requiredEntitlements" : ["VIEW_ACCOUNTING_KEY_STRUCTURE"]
+                        },
+                        {
+                            "type": "leafWArgsMenu",
+                            "id": "accountingKeyStructureMappingBrowser",
+                            "label": "Accounting Key Structure Mapping",
+                            "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                            "closeable": true,
+                            "icon": "fa fa-table",
+                            "modal": false,
+                            "url": null,
+                            "args": {
+                                "viewConfig": "com.sungard.cm.ptp.entities.accounting.accountingbalance.AccountingKeyStructureMapping"
+                            },
+                            "requiredEntitlements" : ["VIEW_ACCOUNTING_KEY_STRUCTURE_MAPPING"]
+                        },
+                        {
+                            "type": "leafWArgsMenu",
+                            "id": "balanceSchemeBrowser",
+                            "label": "Balance Schemes",
+                            "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                            "closeable": true,
+                            "icon": "fa fa-table",
+                            "modal": false,
+                            "url": null,
+                            "args": {
+                                "viewConfig": "com.sungard.cm.ptp.entities.accounting.accountingbalance.BalanceScheme"
+                            },
+                            "requiredEntitlements" : ["VIEW_BALANCE_SCHEMES"]
+                        }
+                    ]
+                },
+                {
+                    "type": "rootMenu",
+                    "id": "feeReferential",
+                    "label": "Fee",
+                    "children": [
+                        {
+                            "type": "leafWArgsMenu",
+                            "id": "feeCalculationAlgorithmBrowser",
+                            "label": "Fee Calculation algorithms",
+                            "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                            "closeable": true,
+                            "icon": "fa fa-table",
+                            "modal": false,
+                            "url": null,
+                            "args": {
+                                "viewConfig": "com.sungard.cm.ptp.entities.fee.FeeCalculationAlgorithm"
+                            },
+                            "requiredEntitlements" : ["VIEW_FEE_CALCULATION_ALGORITHMS"]
+                        },
+                        {
+                            "type": "leafWArgsMenu",
+                            "id": "feeThreshold",
+                            "label": "Fee Threshold",
+                            "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                            "closeable": true,
+                            "icon": "fa fa-table",
+                            "modal": false,
+                            "url": null,
+                            "args": {
+                                "viewConfig": "com.sungard.cm.ptp.entities.fee.Threshold"
+                            },
+                            "requiredEntitlements" : ["VIEW_FEE_RATES"]
+                        }
+                    ]
+                },
+                {
+                    "type": "rootMenu",
+                    "id": "instrumentReferential",
+                    "label": "Instrument",
+                    "children": [
+                        {
+                            "type": "leafWArgsMenu",
+                            "id": "exchangeRateBrowser",
+                            "label": "Exchange Rates",
+                            "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                            "closeable": true,
+                            "icon": "fa fa-table",
+                            "modal": false,
+                            "url": null,
+                            "args": {
+                                "viewConfig": "com.sungard.cm.ptp.entities.instrument.ExchangeRate"
+                            },
+                            "requiredEntitlements" : ["ADD_EXCHANGE_RATES","EDIT_EXCHANGE_RATES","DELETE_EXCHANGE_RATES","VIEW_EXCHANGE_RATES"],
+                             "actions" : [ {
+                        				"id":"exchangeRateViewAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["VIEW_EXCHANGE_RATES"],
+                        				"args" : {
+                        					"actionName" : "VIEW"
+                        				}
+                					 },
+                        			 {
+                        				"id":"exchangeRateEditAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["EDIT_EXCHANGE_RATES"],
+                        				"args" : {
+                        					"actionName" : "EDIT"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"exchangeRateAddAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["ADD_EXCHANGE_RATES"],
+                        				"args" : {
+                        					"actionName" : "ADD"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"exchangeRateDeleteAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["DELETE_EXCHANGE_RATES"],
+                        				"args" : {
+                        					"actionName" : "DELETE"
+                        				}
+                        			 }]
+                        },
+                        {
+                            "type": "leafWArgsMenu",
+                            "id": "groupBrowser",
+                            "label": "Groups",
+                            "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                            "closeable": true,
+                            "icon": "fa fa-table",
+                            "modal": false,
+                            "url": null,
+                            "args": {
+                                "viewConfig": "com.sungard.cm.ptp.entities.instrument.Group"
+                            },
+                             "requiredEntitlements" : ["ADD_GROUPS","EDIT_GROUPS","DELETE_GROUPS","VIEW_GROUPS"],
+                            "actions" : [ {
+                                "id":"groupsViewAction",
+                                "type" : "action",
+                                "requiredEntitlements" : ["VIEW_GROUPS"],
+                                "args" : {
+                                    "actionName" : "VIEW"
+                                }
+                            },
+                                {
+                                    "id":"groupsEditAction",
+                                    "type" : "action",
+                                    "requiredEntitlements" : ["EDIT_GROUPS"],
+                                    "args" : {
+                                        "actionName" : "EDIT"
+                                    }
+                                },
+                                {
+                                    "id":"groupsAddAction",
+                                    "type" : "action",
+                                    "requiredEntitlements" : ["ADD_GROUPS"],
+                                    "args" : {
+                                        "actionName" : "ADD"
+                                    }
+                                },
+                                {
+                                    "id":"groupsDeleteAction",
+                                    "type" : "action",
+                                    "requiredEntitlements" : ["DELETE_GROUPS"],
+                                    "args" : {
+                                        "actionName" : "DELETE"
+                                    }
+                                }]
+                        },
+                        {
+                            "type": "leafWArgsMenu",
+                            "id": "CountryBrowser",
+                            "label": "Countries",
+                            "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                            "closeable": true,
+                            "icon": "fa fa-table",
+                            "modal": false,
+                            "url": null,
+                            "args": {
+                                "viewConfig": "com.sungard.cm.ptp.entities.referential.Country"
+                            },
+                             "requiredEntitlements" : ["ADD_COUNTRIES","EDIT_COUNTRIES","DELETE_COUNTRIES","VIEW_COUNTRIES"],
+                             "actions" : [ {
+                        				"id":"countryViewAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["VIEW_COUNTRIES"],
+                        				"args" : {
+                        					"actionName" : "VIEW"
+                        				}
+                					 },
+                        			 {
+                        				"id":"countryEditAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["EDIT_COUNTRIES"],
+                        				"args" : {
+                        					"actionName" : "EDIT"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"countryAddAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["ADD_COUNTRIES"],
+                        				"args" : {
+                        					"actionName" : "ADD"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"countryDeleteAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["DELETE_COUNTRIES"],
+                        				"args" : {
+                        					"actionName" : "DELETE"
+                        				}
+                        			 }]
+                        }
+                    ]
+                },
+                {
+                    "type": "rootMenu",
+                    "id": "matchingReferential",
+                    "label": "Matching",
+                    "children": [
+                        {
+                            "type": "leafWArgsMenu",
+                            "id": "alertMatchingSetBrowser",
+                            "label": "Alert Matching Sets",
+                            "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                            "closeable": true,
+                            "icon": "fa fa-table",
+                            "modal": false,
+                            "url": null,
+                            "args": {
+                                "viewConfig": "com.sungard.cm.ptp.entities.matching.AlertMatchingSet"
+                            },
+                            "requiredEntitlements" : ["ADD_ALERT_MATCHING_SET","EDIT_ALERT_MATCHING_SET","DELETE_ALERT_MATCHING_SET","VIEW_ALERT_MATCHING_SET"],
+	                            "actions" : [ {
+	                                "id":"alertMatchingSetViewAction",
+	                                "type" : "action",
+	                                "requiredEntitlements" : ["VIEW_ALERT_MATCHING_SET"],
+	                                "args" : {
+	                                    "actionName" : "VIEW"
+	                                }
+	                            },
+                                {
+                                    "id":"alertMatchingSetEditAction",
+                                    "type" : "action",
+                                    "requiredEntitlements" : ["EDIT_ALERT_MATCHING_SET"],
+                                    "args" : {
+                                        "actionName" : "EDIT"
+                                    }
+                                },
+                                {
+                                    "id":"alertMatchingSetAddAction",
+                                    "type" : "action",
+                                    "requiredEntitlements" : ["ADD_ALERT_MATCHING_SET"],
+                                    "args" : {
+                                        "actionName" : "ADD"
+                                    }
+                                },
+                                {
+                                    "id":"alertMatchingSetDeleteAction",
+                                    "type" : "action",
+                                    "requiredEntitlements" : ["DELETE_ALERT_MATCHING_SET"],
+                                    "args" : {
+                                        "actionName" : "DELETE"
+                                    }
+                                }]
+                        },
+                        {
+                            "type": "leafWArgsMenu",
+                            "id": "matchingSetBrowser",
+                            "label": "Matching Sets",
+                            "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                            "closeable": true,
+                            "icon": "fa fa-table",
+                            "modal": false,
+                            "url": null,
+                            "args": {
+                                "viewConfig": "com.sungard.cm.ptp.entities.matching.MatchingSet"
+                            },
+                             "requiredEntitlements" : ["ADD_MATCHING_SET","EDIT_MATCHING_SET","DELETE_MATCHING_SET","VIEW_MATCHING_SET"],
+                            "actions" : [ {
+                                "id":"matchingSetViewAction",
+                                "type" : "action",
+                                "requiredEntitlements" : ["VIEW_MATCHING_SET"],
+                                "args" : {
+                                    "actionName" : "VIEW"
+                                }
+                            },
+                                {
+                                    "id":"matchingSetEditAction",
+                                    "type" : "action",
+                                    "requiredEntitlements" : ["EDIT_MATCHING_SET"],
+                                    "args" : {
+                                        "actionName" : "EDIT"
+                                    }
+                                },
+                                {
+                                    "id":"matchingSetAddAction",
+                                    "type" : "action",
+                                    "requiredEntitlements" : ["ADD_MATCHING_SET"],
+                                    "args" : {
+                                        "actionName" : "ADD"
+                                    }
+                                },
+                                {
+                                    "id":"matchingSetDeleteAction",
+                                    "type" : "action",
+                                    "requiredEntitlements" : ["DELETE_MATCHING_SET"],
+                                    "args" : {
+                                        "actionName" : "DELETE"
+                                    }
+                                }]
+                        },
+                        {
+                            "type": "leafWArgsMenu",
+                            "id": "requestMessage",
+                            "label": "Request Message",
+                            "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                            "closeable": true,
+                            "icon": "fa fa-table",
+                            "modal": false,
+                            "url": null,
+                            "args": {
+                                "viewConfig": "com.sungard.cm.ptp.entities.clearing.RequestMessage"
+                            },
+                            "requiredEntitlements" : ["VIEW_CLEARING_DETAILS_REQUEST"],
+                            "actions" : [ {
+                        				"id":"requestMessageViewAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["VIEW_CLEARING_DETAILS_REQUEST"],
+                        				"args" : {
+                        					"actionName" : "VIEWREQUESTMESSAGE"
+                        				}
+                					 }]
+                        }
+                    ]
+                },
+                {
+                    "type": "rootMenu",
+                    "id": "pricesReferential",
+                    "label": "Prices",
+                    "children": [
+                        {
+                            "type": "leafWArgsMenu",
+                            "id": "settlementPriceBrowser",
+                            "label": "Settlement Prices",
+                            "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                            "closeable": true,
+                            "icon": "fa fa-table",
+                            "modal": false,
+                            "url": null,
+                            "args": {
+                                "viewConfig": "com.sungard.cm.ptp.entities.prices.SettlementPrice"
+                            },
+                            "requiredEntitlements" : ["ADD_SETTLEMENT_PRICE","EDIT_SETTLEMENT_PRICE","DELETE_SETTLEMENT_PRICE","VIEW_SETTLEMENT_PRICE"],
+                            "actions" : [ {
+                        				"id":"settlementPriceViewAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["VIEW_SETTLEMENT_PRICE"],
+                        				"args" : {
+                        					"actionName" : "VIEW"
+                        				}
+                					 },
+                        			 {
+                        				"id":"settlementPriceEditAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["EDIT_SETTLEMENT_PRICE"],
+                        				"args" : {
+                        					"actionName" : "EDIT"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"settlementPriceAddAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["ADD_SETTLEMENT_PRICE"],
+                        				"args" : {
+                        					"actionName" : "ADD"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"settlementPriceDeleteAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["DELETE_SETTLEMENT_PRICE"],
+                        				"args" : {
+                        					"actionName" : "DELETE"
+                        				}
+                        			 }]
+                        }
+                    ]
+                },
+                {
+                    "type": "rootMenu",
+                    "id": "traderReferential",
+                    "label": "Trader",
+                    "children": [
+                        {
+                            "type": "leafWArgsMenu",
+                            "id": "trader",
+                            "label": "Traders",
+                            "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                            "closeable": true,
+                            "icon": "fa fa-table",
+                            "modal": false,
+                            "url": null,
+                            "args": {
+                                "viewConfig": "com.sungard.cm.ptp.entities.trader.Trader"
+                            },
+                            "requiredEntitlements" : ["ADD_TRADER","EDIT_TRADERS","DELETE_TRADERS","VIEW_TRADERS"],
+                             "actions" : [ {
+                        				"id":"traderViewAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["VIEW_TRADERS"],
+                        				"args" : {
+                        					"actionName" : "VIEW"
+                        				}
+                					 },
+                        			 {
+                        				"id":"traderEditAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["EDIT_TRADERS"],
+                        				"args" : {
+                        					"actionName" : "EDIT"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"traderAddAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["ADD_TRADER"],
+                        				"args" : {
+                        					"actionName" : "ADD"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"traderDeleteAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["DELETE_TRADERS"],
+                        				"args" : {
+                        					"actionName" : "DELETE"
+                        				}
+                        			 }]
+                        },
+                        {
+                            "type": "leafWArgsMenu",
+                            "id": "desk",
+                            "label": "Desks",
+                            "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                            "closeable": true,
+                            "icon": "fa fa-table",
+                            "modal": false,
+                            "url": null,
+                            "args": {
+                                "viewConfig": "com.sungard.cm.ptp.entities.trader.Desk"
+                            },
+                            "requiredEntitlements" : ["ADD_DESKS","EDIT_DESKS","DELETE_DESKS","VIEW_DESKS"],
+                              "actions" : [ {
+                        				"id":"deskViewAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["VIEW_DESKS"],
+                        				"args" : {
+                        					"actionName" : "VIEW"
+                        				}
+                					 },
+                        			 {
+                        				"id":"deskEditAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["EDIT_DESKS"],
+                        				"args" : {
+                        					"actionName" : "EDIT"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"deskAddAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["ADD_DESKS"],
+                        				"args" : {
+                        					"actionName" : "ADD"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"deskDeleteAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["DELETE_DESKS"],
+                        				"args" : {
+                        					"actionName" : "DELETE"
+                        				}
+                        			 }]
+                        }
+                    ]
+                },
+                {
+                    "type": "rootMenu",
+                    "id": "otherReferential",
+                    "label": "Other",
+                    "children": [
+                        {
+                            "type": "leafWArgsMenu",
+                            "id": "clearingAccount",
+                            "label": "Clearing Accounts",
+                            "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                            "closeable": true,
+                            "icon": "fa fa-table",
+                            "modal": false,
+                            "url": null,
+                            "args": {
+                                "viewConfig": "com.sungard.cm.ptp.entities.referential.ClearingAccount"
+                            },
+                            "requiredEntitlements" : ["ADD_CLEARING_ACCOUNTS","EDIT_CLEARING_ACCOUNTS","DELETE_CLEARING_ACCOUNTS","VIEW_CLEARING_ACCOUNTS"],
+                            "actions" : [ {
+                        				"id":"clearingAccountViewAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["VIEW_CLEARING_ACCOUNTS"],
+                        				"args" : {
+                        					"actionName" : "VIEW"
+                        				}
+                					 },
+                        			 {
+                        				"id":"clearingAccountEditAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["EDIT_CLEARING_ACCOUNTS"],
+                        				"args" : {
+                        					"actionName" : "EDIT"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"clearingAccountAddAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["ADD_CLEARING_ACCOUNTS"],
+                        				"args" : {
+                        					"actionName" : "ADD"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"clearingAccountDeleteAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["DELETE_CLEARING_ACCOUNTS"],
+                        				"args" : {
+                        					"actionName" : "DELETE"
+                        				}
+                        			 }]
+                        },
+                        {
+                            "type": "leafWArgsMenu",
+                            "id": "ccpAccount",
+                            "label": "CCP Accounts",
+                            "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                            "closeable": true,
+                            "icon": "fa fa-table",
+                            "modal": false,
+                            "url": null,
+                            "args": {
+                                "viewConfig": "com.sungard.cm.ptp.entities.referential.CCPAccount"
+                            },
+                            "requiredEntitlements" : ["ADD_CCP_ACCOUNTS","EDIT_CCP_ACCOUNTS","DELETE_CCP_ACCOUNTS","VIEW_CCP_ACCOUNTS"],
+                            "actions" : [ {
+                        				"id":"ccpAccountViewAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["VIEW_CCP_ACCOUNTS"],
+                        				"args" : {
+                        					"actionName" : "VIEW"
+                        				}
+                					 },
+                        			 {
+                        				"id":"ccpAccountEditAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["EDIT_CCP_ACCOUNTS"],
+                        				"args" : {
+                        					"actionName" : "EDIT"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"ccpAccountAddAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["ADD_CCP_ACCOUNTS"],
+                        				"args" : {
+                        					"actionName" : "ADD"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"ccpAccountDeleteAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["DELETE_CCP_ACCOUNTS"],
+                        				"args" : {
+                        					"actionName" : "DELETE"
+                        				}
+                        			 }]
+                        },
+                        {
+                            "type": "leafWArgsMenu",
+                            "id": "cashAccount",
+                            "label": "Cash Accounts",
+                            "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                            "closeable": true,
+                            "icon": "fa fa-table",
+                            "modal": false,
+                            "url": null,
+                            "args": {
+                                "viewConfig": "com.sungard.cm.ptp.entities.referential.CashAccount"
+                            },
+                            "requiredEntitlements" : ["ADD_CASH_ACCOUNTS","EDIT_CASH_ACCOUNTS","DELETE_CASH_ACCOUNTS","VIEW_CASH_ACCOUNTS"],
+                            "actions" : [ {
+                        				"id":"cashAccountViewAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["VIEW_CASH_ACCOUNTS"],
+                        				"args" : {
+                        					"actionName" : "VIEW"
+                        				}
+                					 },
+                        			 {
+                        				"id":"cashAccountEditAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["EDIT_CASH_ACCOUNTS"],
+                        				"args" : {
+                        					"actionName" : "EDIT"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"cashAccountAddAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["ADD_CASH_ACCOUNTS"],
+                        				"args" : {
+                        					"actionName" : "ADD"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"cashAccountDeleteAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["DELETE_CASH_ACCOUNTS"],
+                        				"args" : {
+                        					"actionName" : "DELETE"
+                        				}
+                        			 }]
+                        },
+                        {
+                            "type": "leafWArgsMenu",
+                            "id": "externalSystemBrowser",
+                            "label": "External Systems",
+                            "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                            "closeable": true,
+                            "icon": "fa fa-table",
+                            "modal": false,
+                            "url": null,
+                            "args": {
+                                "viewConfig": "com.sungard.cm.ptp.entities.referential.ExternalSystem"
+                            },
+                            "requiredEntitlements" : ["ADD_EXTERNAL_SYSTEMS","EDIT_EXTERNAL_SYSTEMS","DELETE_EXTERNAL_SYSTEMS","VIEW_EXTERNAL_SYSTEMS"],
+                            "actions" : [ {
+                                "id":"externalSystemViewAction",
+                                "type" : "action",
+                                "requiredEntitlements" : ["VIEW_EXTERNAL_SYSTEMS"],
+                                "args" : {
+                                    "actionName" : "VIEW"
+                                }
+                            },
+                                {
+                                    "id":"externalSystemEditAction",
+                                    "type" : "action",
+                                    "requiredEntitlements" : ["EDIT_EXTERNAL_SYSTEMS"],
+                                    "args" : {
+                                        "actionName" : "EDIT"
+                                    }
+                                },
+                                {
+                                    "id":"externalSystemAddAction",
+                                    "type" : "action",
+                                    "requiredEntitlements" : ["ADD_EXTERNAL_SYSTEMS"],
+                                    "args" : {
+                                        "actionName" : "ADD"
+                                    }
+                                },
+                                {
+                                    "id":"externalSystemDeleteAction",
+                                    "type" : "action",
+                                    "requiredEntitlements" : ["DELETE_EXTERNAL_SYSTEMS"],
+                                    "args" : {
+                                        "actionName" : "DELETE"
+                                    }
+                                }]
+                        },
+                        {
+                            "type": "leafWArgsMenu",
+                            "id": "membershipTypeBrowser",
+                            "label": "Membership Types",
+                            "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                            "closeable": true,
+                            "icon": "fa fa-table",
+                            "modal": false,
+                            "url": null,
+                            "args": {
+                                "viewConfig": "com.sungard.cm.ptp.entities.referential.MembershipType"
+                            },
+                            "requiredEntitlements" : ["VIEW_MEMBERSHIP_TYPE"]
+                        },
+                        {
+                            "type": "leafWArgsMenu",
+                            "id": "unitOfMeasureBrowser",
+                            "label": "Unit Of Measure",
+                            "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                            "closeable": true,
+                            "icon": "fa fa-table",
+                            "modal": false,
+                            "url": null,
+                            "args": {
+                                "viewConfig": "com.sungard.cm.ptp.entities.referential.UnitOfMeasure"
+                            },
+                            "requiredEntitlements" : ["ADD_UNIT_OF_MEASURE","EDIT_UNIT_OF_MEASURE","DELETE_UNIT_OF_MEASURE","VIEW_UNIT_OF_MEASURE"],
+                            "actions" : [ {
+                        				"id":"unitOfMeasureViewAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["VIEW_UNIT_OF_MEASURE"],
+                        				"args" : {
+                        					"actionName" : "VIEW"
+                        				}
+                					 },
+                        			 {
+                        				"id":"unitOfMeasureEditAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["EDIT_UNIT_OF_MEASURE"],
+                        				"args" : {
+                        					"actionName" : "EDIT"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"unitOfMeasureAddAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["ADD_UNIT_OF_MEASURE"],
+                        				"args" : {
+                        					"actionName" : "ADD"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"unitOfMeasureDeleteAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["DELETE_UNIT_OF_MEASURE"],
+                        				"args" : {
+                        					"actionName" : "DELETE"
+                        				}
+                        			 }]
+
+                        },
+                        {
+                            "type": "leafWArgsMenu",
+                            "id": "destinationInstruction",
+                            "label": "Destination Instruction",
+                            "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                            "closeable": true,
+                            "icon": "fa fa-table",
+                            "modal": false,
+                            "url": null,
+                            "args": {
+                                "viewConfig": "com.sungard.cm.ptp.entities.trade.DestinationInstruction"
+                            },
+                            "requiredEntitlements" : ["VIEW_DESTINATION_INSTRUCTIONS"]
+                        }
+                    ]
+                },
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "entityBrowser",
+                    "label": "Entities",
+                    "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                    "closeable": true,
+                    "icon": "fa fa-table",
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "viewConfig": "com.sungard.cm.ptp.entities.referential.entity.Entity"
+                    },
+                    "requiredEntitlements" : ["ADD_ENTITIES","EDIT_ENTITIES","DELETE_ENTITIES","VIEW_ENTITIES"],
+                     "actions" : [ {
+                				"id":"entityBrowserViewAction",
+                				"type" : "action",
+                				"requiredEntitlements" : ["VIEW_ENTITIES"],
+                				"args" : {
+                					"actionName" : "VIEW"
+                				}
+        					 },
+                			 {
+                				"id":"entityBrowserEditAction",
+                				"type" : "action",
+                				"requiredEntitlements" : ["EDIT_ENTITIES"],
+                				"args" : {
+                					"actionName" : "EDIT"
+                				}
+                			 },
+                			 {
+                				"id":"entityBrowserAddAction",
+                				"type" : "action",
+                				"requiredEntitlements" : ["ADD_ENTITIES"],
+                				"args" : {
+                					"actionName" : "ADD"
+                				}
+                			 },
+                			 {
+                				"id":"entityBrowserDeleteAction",
+                				"type" : "action",
+                				"requiredEntitlements" : ["DELETE_ENTITIES"],
+                				"args" : {
+                					"actionName" : "DELETE"
+                				}
+                			 }]
+                },
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "eventReasonBrowser",
+                    "label": "Event Reasons",
+                    "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                    "closeable": true,
+                    "icon": "fa fa-table",
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "viewConfig": "com.sungard.cm.ptp.entities.trade.EventReason"
+                    },
+                    "requiredEntitlements" : ["ADD_EVENT_REASON","EDIT_EVENT_REASON","DELETE_EVENT_REASON","VIEW_EVENT_REASON"],
+					"actions" : [ {
+						"id":"eventReasonViewAction",
+						"type" : "action",
+						"requiredEntitlements" : ["VIEW_EVENT_REASON"],
+        				"args" : {
+        					"actionName" : "VIEW"
+        				}
+					 },
+        			 {
+        				"id":"eventReasonEditAction",
+        				"type" : "action",
+        				"requiredEntitlements" : ["EDIT_EVENT_REASON"],
+        				"args" : {
+        					"actionName" : "EDIT"
+        				}
+        			 },
+        			 {
+        				"id":"eventReasonAddAction",
+        				"type" : "action",
+        				"requiredEntitlements" : ["ADD_EVENT_REASON"],
+        				"args" : {
+        					"actionName" : "ADD"
+        				}
+        			 },
+        			 {
+        				"id":"eventReasonDeleteAction",
+        				"type" : "action",
+        				"requiredEntitlements" : ["DELETE_EVENT_REASON"],
+        				"args" : {
+        					"actionName" : "DELETE"
+        				}
+        			 }]
+                }
+            ],
+            "icon": "fa fa-link"
+        },
+        {
+            "type": "rootMenu",
+            "id": "instruments",
+            "label": "Product Management",
+            "children": [
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "instrument",
+                    "label": "Add Instrument",
+                    "closeable": true,
+                    "partial": "nxComponents/nxEntityEditor/nxEntityEditorHost.html",
+                    "args": {
+                        "entityName": "com.sungard.cm.ptp.entities.instrument.Instrument",
+                        "processName": "{CreateEntity}CreateEntity",
+                        "form": "nxFunctional/nxInstrument/nxInstrumentEditor",
+                        "operation": "addEntity"
+                    },
+                    "requiredEntitlements" : ["ADD_INSTRUMENT"],
+                    "actions" : [ {
+                        				"id":"instrumentsBrowserAddAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["ADD_INSTRUMENT"],
+                        				"args" : {
+                        					"actionName" : "ADD"
+                        				}
+                					 }]
+                },
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "instrumentsBrowser",
+                    "label": "Instruments",
+                    "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                    "closeable": true,
+                    "icon": "fa fa-table",
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "viewConfig": "com.sungard.cm.ptp.entities.instrument.Instrument"
+                    },
+                    "requiredEntitlements" : ["EDIT_INSTRUMENT","DELETE_INSTRUMENT","VIEW_INSTRUMENT"],
+                    "actions" : [ {
+                        				"id":"instrumentsBrowserViewAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["VIEW_INSTRUMENT"],
+                        				"args" : {
+                        					"actionName" : "VIEW"
+                        				}
+                					 },
+                        			 {
+                        				"id":"instrumentsBrowserEditAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["EDIT_INSTRUMENT"],
+                        				"args" : {
+                        					"actionName" : "EDIT"
+                        				}
+                        			 },
+                        			 {
+                        				"id":"instrumentsBrowserDeleteAction",
+                        				"type" : "action",
+                        				"requiredEntitlements" : ["DELETE_INSTRUMENT"],
+                        				"args" : {
+                        					"actionName" : "DELETE"
+                        				}
+                        			 }]
+                }
+            ],
+            "icon": "fa fa-sitemap"
+        },
+        {
+            "type": "rootMenu",
+            "id": "aggregation",
+            "label": "Aggregation",
+            "children": [
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "aggregationMethod",
+                    "label": "Aggregation Method",
+                    "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                    "closeable": true,
+                    "modal": false,
+                    "args": {
+                        "viewConfig": "com.sungard.cm.ptp.entities.aggregation.AggregationMethod"
+                    },
+                    "url": null,
+                    "requiredEntitlements" : ["VIEW_FEE_RATES"]
+                },
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "volumeAggregation",
+                    "label": "Volume Aggregation",
+                    "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                    "closeable": true,
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "viewConfig": "com.sungard.cm.ptp.entities.aggregation.VolumeAggregation"
+                    },
+                    "requiredEntitlements" : ["VIEW_FEE_RATES"]
+                }
+            ],
+            "icon": "fa fa-calculator"
+        },
+        {
+            "type": "rootMenu",
+            "id": "reconciliation",
+            "label": "Reconciliation",
+            "children": [
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "reconciliationResult",
+                    "label": "Reconciliation Result",
+                    "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                    "closeable": true,
+                    "icon": "fa fa-university",
+                    "modal": false,
+                    "args": {
+                        "viewConfig": "com.sungard.cm.ptp.entities.reconciliation.ReconciliationResult"
+                    },
+                    "requiredEntitlements" : ["VIEW_RECONCILATION_RESULT"],
+                    "url": null
+                },
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "reconciliationSettings",
+                    "label": "Reconciliation Settings",
+                    "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                    "closeable": true,
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "viewConfig": "com.sungard.cm.ptp.entities.reconciliation.ReconciliationSettings"
+                    },
+                    "requiredEntitlements" : ["VIEW_RECONCILATION_SETTINGS"]
+                }
+            ],
+            "icon": "fa fa-university"
+        },
+        {
+            "type": "rootMenu",
+            "id": "adminMenu",
+            "label": "Administration",
+            "children": [
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "settingsBrowser",
+                    "label": "Settings",
+                    "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                    "closeable": true,
+                    "icon": "fa fa-table",
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "viewConfig": "com.sungard.cm.ptp.entities.util.Settings"
+                    },
+                    "requiredEntitlements" : ["EDIT_SETTINGS"]
+                },
+                {
+                    "type": "leafMenu",
+                    "id": "systemDashboard",
+                    "label": "Admin Console",
+                    "partial": "nxFunctional/nxAdmin/nxAdminConsole.html",
+                    "closeable": true,
+                    "icon": "fa fa-gear",
+                    "modal": false,
+                    "url": null,
+                    "requiredEntitlements" : ["VIEW_ADMIN_CONSOLE"]
+                },
+                {
+                    "type": "leafMenu",
+                    "id": "metadataAdmin",
+                    "label": "System Configuration",
+                    "partial": "nxAdmin/nxMetaData/nxMetadataAdmin.html",
+                    "closeable": true,
+                    "icon": "fa fa-gear",
+                    "modal": false,
+                    "url": null,
+                    "requiredEntitlements" : ["VIEW_SYSTEM_CONFIGURATION"]
+                },
+                {
+                    "type": "leafMenu",
+                    "id": "openIdpWindow",
+                    "label": "User Management",
+                    "partial": null,
+                    "closeable": false,
+                    "icon": "fa fa-users",
+                    "modal": false,
+                    "url": "https://localhost:8443/IdPRI/NEXTGEN?ClientID=IAFIdP",
+                    "requiredEntitlements" : ["VIEW_USER_MANAGEMENT"]
+                },
+                {
+                    "type": "leafMenu",
+                    "id": "metadataAdministration",
+                    "label": "Metadata Administration",
+                    "partial": "nxAdmin/nxMetaData/nxMetadataAdministration.html",
+                    "closeable": true,
+                    "icon": "fa fa-gear",
+                    "modal": false,
+                    "url": null,
+                    "requiredEntitlements" : ["VIEW_METADATA_ADMINISTRATION"]
+                },
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "auditBrowser",
+                    "label": "Audit Info",
+                    "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                    "closeable": true,
+                    "icon": "fa fa-table",
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "viewConfig": "com.sungard.cm.ptp.entities.accounting.AuditInfo"
+                    },
+                    "requiredEntitlements" : ["VIEW_AUDIT_INFO"]
+                },
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "masterError",
+                    "label": "Error",
+                    "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                    "closeable": true,
+                    "icon": "fa fa-bug",
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "viewConfig": "com.sungard.cm.ptp.entities.referential.MasterError"
+                    },
+                    "requiredEntitlements" : ["VIEW_MASTER_ERROR"]
+                },
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "relationshipBrowser",
+                    "label": "Relationships",
+                    "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+                    "closeable": true,
+                    "icon": "fa fa-table",
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "viewConfig": "com.sungard.cm.ptp.entities.util.Relationship"
+                    },
+                    "requiredEntitlements" : ["VIEW_RELATIONSHIPS"]
+                },
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "ruleAttributes",
+                    "label": "Rule Attributes",
+                    "partial": "nxFunctional/nxRules/nxRuleAttributes/nxRuleAttributes.html",
+                    "closeable": true,
+                    "icon": "fa fa-pencil-square",
+                    "modal": false,
+                    "url": null,
+                    "args": {},
+                    "requiredEntitlements" : ["VIEW_RULE_ATTRIBUTES","ADD_RULE_ATTRIBUTES","DELETE_RULE_ATTRIBUTES","EDIT_RULE_ATTRIBUTES"],
+                    "actions" : [ {
+                        "id":"ruleAttributesViewAction",
+                        "type" : "action",
+                        "requiredEntitlements" : ["VIEW_RULE_ATTRIBUTES"],
+                        "args" : {
+                            "actionName" : "VIEW"
+                        }
+                    },
+                        {
+                            "id":"ruleAttributesCommonEditAction",
+                            "type" : "action",
+                            "requiredEntitlements" : ["EDIT_RULE_ATTRIBUTES"],
+                            "args" : {
+                                "actionName" : "EDIT"
+                            }
+                        },
+                        {
+                            "id":"ruleAttributesCommonAddAction",
+                            "type" : "action",
+                            "requiredEntitlements" : ["ADD_RULE_ATTRIBUTES"],
+                            "args" : {
+                                "actionName" : "ADD"
+                            }
+                        },
+                        {
+                            "id":"ruleAttributesCommonDeleteAction",
+                            "type" : "action",
+                            "requiredEntitlements" : ["DELETE_RULE_ATTRIBUTES"],
+                            "args" : {
+                                "actionName" : "DELETE"
+                            }
+                        }]
+                },
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "ruleViewer",
+                    "label": "Rule Viewer",
+                    "partial": "nxFunctional/nxRules/nxRuleViewer.html",
+                    "closeable": true,
+                    "icon": "fa fa-pencil-square",
+                    "modal": false,
+                    "url": null,
+                    "args": {},
+                    "requiredEntitlements" : ["VIEW_RULE","ADD_RULE","DELETE_RULE","EDIT_RULE"],
+                    "actions" : [ {
+                        "id":"ruleViewerViewAction",
+                        "type" : "action",
+                        "requiredEntitlements" : ["VIEW_RULE"],
+                        "args" : {
+                            "actionName" : "VIEW"
+                        }
+                    },
+                        {
+                            "id":"ruleViewerCommonEditAction",
+                            "type" : "action",
+                            "requiredEntitlements" : ["EDIT_RULE"],
+                            "args" : {
+                                "actionName" : "EDIT"
+                            }
+                        },
+                        {
+                            "id":"ruleViewerCommonAddAction",
+                            "type" : "action",
+                            "requiredEntitlements" : ["ADD_RULE"],
+                            "args" : {
+                                "actionName" : "ADD"
+                            }
+                        },
+                        {
+                            "id":"ruleViewerCommonDeleteAction",
+                            "type" : "action",
+                            "requiredEntitlements" : ["DELETE_RULE"],
+                            "args" : {
+                                "actionName" : "DELETE"
+                            }
+                        }]
+
+                }
+            ],
+            "icon": "fa fa-cogs"
+        },
+        {
+            "type": "rootMenu",
+            "id": "toolsMenu",
+            "label": "Tools",
+            "children": [
+                {
+                    "type": "leafMenu",
+                    "id": "initialMarginHistory",
+                    "label": "Initial Margin History",
+                    "partial": "nxFunctional/nxInitialMargin/nxIMCHistoryPartial.html",
+                    "closeable": true,
+                    "icon": null,
+                    "modal": false,
+                    "url": null,
+                    "requiredEntitlements" : ["VIEW_IM_HISTORY"]
+                },
+                {
+                    "type": "leafMenu",
+                    "id": "Query",
+                    "label": "Query",
+                    "partial": "nxFunctional/nxHistory/nxQueryExecution.html",
+                    "closeable": true,
+                    "icon": null,
+                    "modal": false,
+                    "url": null,
+                    "requiredEntitlements" : ["VIEW_QUERY"]
+                }
+            ],
+            "icon": "fa fa-wrench"
+        },
+        {
+            "type": "rootMenu",
+            "id": "ippProcessList",
+            "label": "Process Management",
+            "children": [
+                {
+                    "type": "leafMenu",
+                    "id": "listProcessesIpp",
+                    "label": "My Processes",
+                    "partial": "nxComponents/nxProcess/nxListProcessesIPP.html",
+                    "closeable": true,
+                    "icon": null,
+                    "modal": false,
+                    "url": null,
+                    "requiredEntitlements" : ["VIEW_PROCESS_LIST"]
+                },
+                {
+                    "type": "leafMenu",
+                    "id": "openIppWindow",
+                    "label": "Modelling",
+                    "partial": null,
+                    "closeable": false,
+                    "icon": null,
+                    "modal": false,
+                    "url": "http://localhost:8095/nextGen.portal-1.0",
+                    "requiredEntitlements" : ["VIEW_MODELLING"]
+                }
+            ],
+            "icon": "fa fa-flag"
+        },
+        {
+            "type": "rootMenu",
+            "id": "sampleExample",
+            "label": "Sample Examples",
+            "children": [
+                {
+                    "type": "leafWArgsMenu",
+                    "id": "multiEdit",
+                    "label": "Add CCPAccount",
+                    "partial": "nxComponents/nxEntityEditor/nxEntityEditorHost.html",
+                    "closeable": true,
+                    "icon": "fa fa-edit",
+                    "modal": false,
+                    "url": null,
+                    "args": {
+                        "entityName": "com.sungard.cm.ptp.entities.referential.CCPAccount",
+                        "form": "nxComponents/nxMultiEdit/nxMultiEditExample",
+                        "operation": "addEntity",
+                        "processName": "{CreateEntity}CreateEntity",
+                        "includeInfoTasks": null
+                    }
+                }
+            ],
+            "icon": "fa fa-clipboard"
+        }
+    ],
+    "crudPages": [
+    	{
+            "type": "leafWArgsMenu",
+            "id": "viewEntity/:entityName/:Id",
+            "label": "{Id}",
+            "partial": "nxComponents/nxEntityEditor/nxEntityViewer.html",
+            "closeable": true,
+            "icon": "fa fa-edit",
+            "modal": false,
+            "url": null,
+            "args": {
+                "entityName": null,
+                "form": null,
+                "operation": null,
+                "processName": null,
+                "includeInfoTasks": null
+            },
+            "requiredEntitlements" : ["NX_PUBLIC"]
+        },
+        {
+            "type": "leafWArgsMenu",
+            "id": "editDeleteEntity/:Id/:entityName",
+            "label": "{Id}",
+            "partial": "nxComponents/nxEntityEditor/nxEntityEditorHost.html",
+            "closeable": true,
+            "icon": "fa fa-edit",
+            "modal": false,
+            "url": null,
+            "args": {
+                "entityName": null,
+                "form": null,
+                "operation": null,
+                "processName": null,
+                "includeInfoTasks": null
+            },
+            "requiredEntitlements" : ["NX_PUBLIC"]
+        },
+        {
+            "type": "leafWArgsMenu",
+            "id": "giveUp/:Id",
+            "label": "GiveUp Id: {Id}",
+            "partial": "nxFunctional/nxGiveUp/nxGiveUpEditor.html",
+            "closeable": true,
+            "icon": "fa fa-edit",
+            "modal": false,
+            "url": null,
+            "args": {
+                "entityName": null,
+                "form": null,
+                "operation": null,
+                "processName": null,
+                "includeInfoTasks": null
+            },
+            "requiredEntitlements" : ["EDIT_GIVEUP"]
+        },
+        {
+            "type": "leafWArgsMenu",
+            "id": "matchingView/:entityId/:entityName",
+            "label": "Matching View",
+            "partial": "nxFunctional/nxMatchingView/nxMatchingView.html",
+            "closeable": true,
+            "icon": "fa fa-edit",
+            "modal": false,
+            "url": null,
+            "args": {
+                "entityName": null,
+                "form": null,
+                "operation": null,
+                "processName": null,
+                "includeInfoTasks": null
+            },
+            "requiredEntitlements" : ["VIEW_MATCHING"]
+        },
+        {
+            "type": "leafWArgsMenu",
+            "id": "fixEntity/:entityName",
+            "label": "Fix ",
+            "partial": "nxComponents/nxEntityEditor/nxEntityEditorHost.html",
+            "closeable": true,
+            "icon": "fa fa-edit",
+            "modal": false,
+            "url": null,
+            "args": {
+                "entityName": null,
+                "form": null,
+                "operation": null,
+                "processName": null,
+                "includeInfoTasks": null
+            },
+            "requiredEntitlements" : ["NX_PUBLIC"]
+        },
+        {
+            "type": "leafWArgsMenu",
+            "id": "cloneEntity/:cloneId/:entityName",
+            "label": "Clone {entityName}",
+            "partial": "nxComponents/nxEntityEditor/nxEntityEditorHost.html",
+            "closeable": true,
+            "icon": "fa fa-edit",
+            "modal": false,
+            "url": null,
+            "args": {
+                "entityName": null,
+                "form": null,
+                "operation": null,
+                "processName": null,
+                "includeInfoTasks": null
+            },
+            "requiredEntitlements" : ["NX_PUBLIC"]
+        },
+        {
+            "type": "leafWArgsMenu",
+            "id": "dataBrowser/:title/:from/:filter/:viewConfig",
+            "label": "{title}",
+            "partial": "nxComponents/nxDataBrowser/nxDataBrowserHost.html",
+            "closeable": true,
+            "icon": "fa fa-table",
+            "modal": false,
+            "url": null,
+            "args": {},
+            "requiredEntitlements" : ["NX_PUBLIC"]
+        },
+        {
+            "type": "leafWArgsMenu",
+            "id": "addEntity/:entityName",
+            "label": "Add {entityName}",
+            "partial": "nxComponents/nxEntityEditor/nxEntityEditorHost.html",
+            "closeable": true,
+            "icon": "fa fa-edit",
+            "modal": false,
+            "url": null,
+            "args": {
+                "entityName": null,
+                "form": null,
+                "operation": null,
+                "processName": null,
+                "includeInfoTasks": null
+            },
+            "requiredEntitlements" : ["NX_PUBLIC"]
+        },
+        {
+            "type": "leafWArgsMenu",
+            "id": "editInstrument/:Id",
+            "label": "Edit Id: {Id}",
+            "partial": "nxComponents/nxEntityEditor/nxEntityEditorHost.html",
+            "closeable": true,
+            "icon": "fa fa-edit",
+            "modal": false,
+            "url": null,
+            "args": {
+                "entityName": null,
+                "form": null,
+                "operation": null,
+                "processName": null,
+                "includeInfoTasks": null
+            },
+            "requiredEntitlements" : ["EDIT_INSTRUMENT"]
+        },
+        {
+            "type": "leafWArgsMenu",
+            "id": "taskListAudit/:Id",
+            "label": "Task List - Audit",
+            "partial": "nxComponents/nxTaskList/nxTaskListAuditHistoryView.html",
+            "closeable": true,
+            "icon": "fa fa-upload",
+            "modal": true,
+            "url": null,
+            "args": {
+                "entityName": null,
+                "form": null,
+                "operation": null,
+                "processName": null,
+                "includeInfoTasks": null
+            },
+            "requiredEntitlements" : ["VIEW_TASK_HISTORY"]
+        },
+        {
+            "type": "leafWArgsMenu",
+            "id": "taskListDetails/:Id",
+            "label": "Task List- Details",
+            "partial": "nxComponents/nxTaskList/nxTaskListDetailsView.html",
+            "closeable": true,
+            "icon": "fa fa-upload",
+            "modal": true,
+            "url": null,
+            "args": {
+                "entityName": null,
+                "form": null,
+                "operation": null,
+                "processName": null,
+                "includeInfoTasks": null
+            },
+            "requiredEntitlements" : ["VIEW_TASK_DETAILS"]
+        },
+        {
+            "type": "leafWArgsMenu",
+            "id": "taskListAssignUser/:Id",
+            "label": "Task List - Assign User Task",
+            "partial": "nxComponents/nxTaskList/nxTaskListUserAssignView.html",
+            "closeable": true,
+            "icon": "fa fa-upload",
+            "modal": false,
+            "url": null,
+            "args": {
+                "entityName": null,
+                "form": null,
+                "operation": null,
+                "processName": null,
+                "includeInfoTasks": null
+            },
+            "requiredEntitlements" : ["ASSIGN_TASK"]
+        },
+        {
+            "type": "leafWArgsMenu",
+            "id": "taskListDependentTask/:Id",
+            "label": "Task List - Dependent Tasks",
+            "partial": "nxComponents/nxTaskList/nxTaskListDependentView.html",
+            "closeable": true,
+            "icon": "fa fa-upload",
+            "modal": false,
+            "url": null,
+            "args": {
+                "entityName": null,
+                "form": null,
+                "operation": null,
+                "processName": null,
+                "includeInfoTasks": null
+            },
+            "requiredEntitlements" : ["VIEW_DEPENDENT_TASKS"]
+        },
+        {
+            "type": "leafWArgsMenu",
+            "id": "reconciliationDetails/:id",
+            "label": "Reconciliation Details",
+            "partial": "nxFunctional/nxReconciliationDetails/nxReconciliationDetails.html",
+            "closeable": true,
+            "icon": "fa fa-university",
+            "modal": false,
+            "args": {
+                "entityName": null,
+                "form": null,
+                "operation": null,
+                "processName": null,
+                "includeInfoTasks": null
+            },
+            "url": null,
+            "requiredEntitlements" : ["VIEW_RECONCIITION_DETAILS"]
+        },
+        {
+            "type": "leafWArgsMenu",
+            "id": "ruleDynamicViewer/:context",
+            "label": "Rule Viewer",
+            "partial": "nxFunctional/nxRules/nxRuleViewer.html",
+            "closeable": true,
+            "icon": "fa fa-table",
+            "modal": false,
+            "args": {
+                "context": null
+            },
+            "url": null,
+            "requiredEntitlements" : ["VIEW_RULE","ADD_RULE","DELETE_RULE","EDIT_RULE"]
+        },
+        {
+            "type": "leafWArgsMenu",
+            "id": "ruleDynamicAttribute/:context",
+            "label": "Rule Attributes",
+            "partial": "nxFunctional/nxRules/nxRuleAttributes/nxRuleAttributes.html",
+            "closeable": true,
+            "icon": "fa fa-table",
+            "modal": false,
+            "args": {
+                "context": null
+            },
+            "url": null,
+            "requiredEntitlements" : ["VIEW_RULE","ADD_RULE","DELETE_RULE","EDIT_RULE"]
+        }
+    ],
+    "ippProcessFlowPages": [
+        {
+            "type": "leafMenu",
+            "id": "procesFlow/:processId",
+            "label": "{processId}",
+            "partial": "nxComponents/nxWorkflowFramework/nxWorkFlowDefaultContainer.html",
+            "closeable": true,
+            "icon": null,
+            "modal": false,
+            "url": null,
+            "requiredEntitlements" : ["NX_PUBLIC"]
+        }
+    ],
+    "hiddenFlowPages": null,
+    "todo": null,
+    "hiddenPages": null,
+    "utility": [
+   		{
+            "type": "exchangeClosingWidget",
+            "id": "exchangeClosingWidget",
+            "children": [],
+            "icon": "icon-bell",
+            "cls": "nxExchangeCloseTimeTrackerDrct",
+            "requiredEntitlements" : ["NX_PUBLIC"]
+        },
+        {
+            "type": "inboxMenu",
+            "id": "nxInbox",
+            "label": "Inbox",
+            "title": "InboxTitle",
+            "children": [],
+            "icon": "icon-envelope",
+            "cls": "nxInbox",
+            "actionController": "inboxMessageController",
+            "requiredEntitlements" : ["NX_PUBLIC"]
+        },
+        {
+            "type": "languageMenu",
+            "id": "chooseLanguage",
+            "label": "Language",
+            "cls": "duiLanguageChooser",
+            "actionController": "LanguageChooserCtrl",
+            "requiredEntitlements" : ["NX_PUBLIC"]
+        },
+        {
+            "type": "userDetailsMenu",
+            "id": "userDetail",
+            "label": "Admin",
+            "icon": "icon-user",
+            "requiredEntitlements" : ["NX_PUBLIC"]
+        },
+        {
+            "type": "logoutMenu",
+            "id": "logOut",
+            "label": "Sign Out",
+            "actionController": "nxLoginCtrl",
+            "action": "logout()",
+            "requiredEntitlements" : ["NX_PUBLIC"]
+        }
+    ]
+}

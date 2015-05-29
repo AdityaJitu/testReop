@@ -1,0 +1,22 @@
+{
+    "kendoConfig":{
+        "title": {
+            "text": "Open Exceptions"
+        },
+        "series": [
+            {
+                "categoryField": "category",
+                "data": [
+                    {
+                        "category": "Not Started",
+                        "value": 100
+                    },
+                    {
+                        "category": "In Progress",
+                        "value": 20
+                    }
+                ]
+            }
+        ]
+    }
+}

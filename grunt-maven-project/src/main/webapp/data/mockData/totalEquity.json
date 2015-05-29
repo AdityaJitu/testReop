@@ -1,0 +1,22 @@
+{
+    "kendoConfig":{
+        "title": {
+            "text": "Total Equity (in USD)"
+        },
+        "series": [
+            {
+                "categoryField": "category",
+                "data": [
+                    {
+                        "category": "OTE",
+                        "value": 35
+                    },
+                    {
+                        "category": "Cash Balance",
+                        "value": -25
+                    }
+                ]
+            }
+        ]
+    }
+}

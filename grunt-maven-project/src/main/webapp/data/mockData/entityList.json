@@ -1,0 +1,132 @@
+[
+    {
+        "value": "Account",
+        "label": "Account",
+        "type": "com.sungard.cm.ptp.services.nodecontrolleripp.dto.LabelAndValues"
+    },
+    {
+        "value": "AccountingBalance",
+        "label": "AccountingBalance",
+        "type": "com.sungard.cm.ptp.services.nodecontrolleripp.dto.LabelAndValues"
+    },
+    {
+        "value": "AccountingBalanceChange",
+        "label": "AccountingBalanceChange",
+        "type": "com.sungard.cm.ptp.services.nodecontrolleripp.dto.LabelAndValues"
+    },
+    {
+        "value": "AuditInfo",
+        "label": "AuditInfo",
+        "type": "com.sungard.cm.ptp.services.nodecontrolleripp.dto.LabelAndValues"
+    },
+    {
+        "value": "BPMPublishedMessage",
+        "label": "BPMPublishedMessage",
+        "type": "com.sungard.cm.ptp.services.nodecontrolleripp.dto.LabelAndValues"
+    },
+    {
+        "value": "ConvertibleBond",
+        "label": "ConvertibleBond",
+        "type": "com.sungard.cm.ptp.services.nodecontrolleripp.dto.LabelAndValues"
+    },
+    {
+        "value": "CreditDefaultSwap",
+        "label": "CreditDefaultSwap",
+        "type": "com.sungard.cm.ptp.services.nodecontrolleripp.dto.LabelAndValues"
+    },
+    {
+        "value": "Error",
+        "label": "Error",
+        "type": "com.sungard.cm.ptp.services.nodecontrolleripp.dto.LabelAndValues"
+    },
+    {
+        "value": "Exchange",
+        "label": "Exchange",
+        "type": "com.sungard.cm.ptp.services.nodecontrolleripp.dto.LabelAndValues"
+    },
+    {
+        "value": "ExchangeRate",
+        "label": "ExchangeRate",
+        "type": "com.sungard.cm.ptp.services.nodecontrolleripp.dto.LabelAndValues"
+    },
+    {
+        "value": "FXInstrument",
+        "label": "FXInstrument",
+        "type": "com.sungard.cm.ptp.services.nodecontrolleripp.dto.LabelAndValues"
+    },
+    {
+        "value": "Fee",
+        "label": "Fee",
+        "type": "com.sungard.cm.ptp.services.nodecontrolleripp.dto.LabelAndValues"
+    },
+    {
+        "value": "ForwardInstrument",
+        "label": "ForwardInstrument",
+        "type": "com.sungard.cm.ptp.services.nodecontrolleripp.dto.LabelAndValues"
+    },
+    {
+        "value": "FutureInstrument",
+        "label": "FutureInstrument",
+        "type": "com.sungard.cm.ptp.services.nodecontrolleripp.dto.LabelAndValues"
+    },
+    {
+        "value": "InitialMargin",
+        "label": "InitialMargin",
+        "type": "com.sungard.cm.ptp.services.nodecontrolleripp.dto.LabelAndValues"
+    },
+    {
+        "value": "Instrument",
+        "label": "Instrument",
+        "type": "com.sungard.cm.ptp.services.nodecontrolleripp.dto.LabelAndValues"
+    },
+    {
+        "value": "LegalEntity",
+        "label": "LegalEntity",
+        "type": "com.sungard.cm.ptp.services.nodecontrolleripp.dto.LabelAndValues"
+    },
+    {
+        "value": "MasterError",
+        "label": "MasterError",
+        "type": "com.sungard.cm.ptp.services.nodecontrolleripp.dto.LabelAndValues"
+    },
+    {
+        "value": "Message",
+        "label": "Message",
+        "type": "com.sungard.cm.ptp.services.nodecontrolleripp.dto.LabelAndValues"
+    },
+    {
+        "value": "OffsetPair",
+        "label": "OffsetPair",
+        "type": "com.sungard.cm.ptp.services.nodecontrolleripp.dto.LabelAndValues"
+    },
+    {
+        "value": "OptionInstrument",
+        "label": "OptionInstrument",
+        "type": "com.sungard.cm.ptp.services.nodecontrolleripp.dto.LabelAndValues"
+    },
+    {
+        "value": "Relationship",
+        "label": "Relationship",
+        "type": "com.sungard.cm.ptp.services.nodecontrolleripp.dto.LabelAndValues"
+    },
+    {
+        "value": "SettlementPrice",
+        "label": "SettlementPrice",
+        "type": "com.sungard.cm.ptp.services.nodecontrolleripp.dto.LabelAndValues"
+    },
+    {
+        "value": "Stock",
+        "label": "Stock",
+        "type": "com.sungard.cm.ptp.services.nodecontrolleripp.dto.LabelAndValues"
+    },
+    {
+        "value": "Trade",
+        "label": "Trade",
+        "type": "com.sungard.cm.ptp.services.nodecontrolleripp.dto.LabelAndValues"
+    },
+    {
+        "value": "UnitOfMeasure",
+        "label": "UnitOfMeasure",
+        "type": "com.sungard.cm.ptp.services.nodecontrolleripp.dto.LabelAndValues"
+    }
+]

@@ -1,0 +1,1551 @@
+//created on: Jan 9, 2014
+package com.sungard.cm.ptp.security.drls;
+
+
+//list any import classes here.
+import org.slf4j.Logger;
+import java.util.Map;
+import com.sungard.cm.ptp.security.SecurityDecisionBuilder;
+import com.sungard.cm.ptp.security.Decision;
+import com.sungard.cm.ptp.security.SecurityEvaluationContext;
+import com.sungard.cm.ptp.security.UserDetails;
+import function com.sungard.cm.ptp.security.policymanagement.SecurityFunctionsUtil.checkEntitlementsPresent;
+import function com.sungard.cm.ptp.security.policymanagement.SecurityFunctionsUtil.checkEntitlementPresent;
+import function com.sungard.cm.ptp.security.policymanagement.SecurityFunctionsUtil.checkProfilePresent;
+import function com.sungard.cm.ptp.security.policymanagement.SecurityFunctionsUtil.checkOneOfTheEntitlementPresent;
+import com.sungard.cm.ptp.security.SecurityObligationFacade;
+import com.sungard.cm.ptp.security.TenancyHierarchy;
+import com.sungard.cm.ptp.entities.fee.Fee;
+import com.sungard.cm.ptp.entities.fee.FeeCalculationAlgorithm;
+import com.sungard.cm.ptp.entities.fee.FeeRateRule;
+import com.sungard.cm.ptp.entities.accounting.accountingbalance.AccountingBalance;
+import com.sungard.cm.ptp.entities.accounting.accountingbalance.AccountingBalanceChange;
+import com.sungard.cm.ptp.entities.referential.Account;
+import com.sungard.cm.ptp.entities.referential.MasterError;
+import com.sungard.cm.ptp.entities.referential.Message;
+import com.sungard.cm.ptp.entities.trade.Trade;
+
+global com.sungard.cm.ptp.security.SecurityDecisionBuilder evaluationResultBuilder
+global org.slf4j.Logger logger;
+
+/* Rules For UserConfigService. */
+rule "Your getEntityList Rule" salience 100 dialect "java"
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("api/userConfiguration/getEntityList") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your getEntityList negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/userConfiguration/getEntityList") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+
+end
+
+rule "Your saveColumnConfiguration Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("api/userConfiguration/saveGridConfig") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your saveColumnConfiguration negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/userConfiguration/saveGridConfig") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+rule "Your saveViewConfig Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("api/userConfiguration/saveViewConfig") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your saveViewConfig negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/userConfiguration/saveViewConfig") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+         logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+rule "Your getColumnDetails Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/userConfiguration/getColumns") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your getColumnDetails negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/userConfiguration/getColumns") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your timeZone Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/node/timeZone") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your timeZone negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/node/timeZone") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+/* Rules For IppService. */
+rule "Your completeActivity Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/workflow/process") == true )
+          eval(checkOneOfTheEntitlementPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC","TRADE_ADD", "INSTRUMENT_ADD", "EXCHANGE_ADD", "FEE_SCHEDULE_ADD", "FEE_CALCULATION", "MARGIN_CALCULATION", "ACCOUNTINGBALANCE_UPLOAD"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+rule "Your completeActivity negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/workflow/process") == true )
+          eval(!checkOneOfTheEntitlementPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC", "TRADE_ADD", "INSTRUMENT_ADD", "EXCHANGE_ADD", "FEE_SCHEDULE_ADD", "FEE_CALCULATION", "MARGIN_CALCULATION", "ACCOUNTINGBALANCE_UPLOAD"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+/* Rules For TaskManager. */
+rule "Your taskManager Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/taskmanager/tasks") == true )
+          eval(checkOneOfTheEntitlementPresent((UserDetails)($contextMap.get("UserContext")),"TASK_MANAGER"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+rule "Your taskManager negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/taskmanager/tasks") == true )
+          eval(!checkOneOfTheEntitlementPresent((UserDetails)($contextMap.get("UserContext")),"TASK_MANAGER"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your taskManager process Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/taskmanager/task/process") == true )
+          eval(checkOneOfTheEntitlementPresent((UserDetails)($contextMap.get("UserContext")),"TASK_MANAGER"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+rule "Your taskManager negative process Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/taskmanager/task/process") == true )
+          eval(!checkOneOfTheEntitlementPresent((UserDetails)($contextMap.get("UserContext")),"TASK_MANAGER"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+         logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your taskManager cancel Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/taskmanager/task/cancel") == true )
+          eval(checkOneOfTheEntitlementPresent((UserDetails)($contextMap.get("UserContext")),"TASK_MANAGER"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+rule "Your taskManager negative cancel Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/taskmanager/task/cancel") == true )
+          eval(!checkOneOfTheEntitlementPresent((UserDetails)($contextMap.get("UserContext")),"TASK_MANAGER"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your taskManager escalate Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/taskmanager/task/escalate") == true )
+          eval(checkOneOfTheEntitlementPresent((UserDetails)($contextMap.get("UserContext")),"TASK_MANAGER"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+rule "Your taskManager negative escalate Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/taskmanager/task/escalate") == true )
+          eval(!checkOneOfTheEntitlementPresent((UserDetails)($contextMap.get("UserContext")),"TASK_MANAGER"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your taskManager assign Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/taskmanager/task/assign") == true )
+          eval(checkOneOfTheEntitlementPresent((UserDetails)($contextMap.get("UserContext")),"TASK_MANAGER"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+rule "Your taskManager negative assign Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/taskmanager/task/assign") == true )
+          eval(!checkOneOfTheEntitlementPresent((UserDetails)($contextMap.get("UserContext")),"TASK_MANAGER"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");end
+
+rule "Your taskManager audit Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/taskmanager/task/*/audit") == true )
+          eval(checkOneOfTheEntitlementPresent((UserDetails)($contextMap.get("UserContext")),"TASK_MANAGER"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+rule "Your taskManager negative audit Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/taskmanager/task/*/audit") == true )
+          eval(!checkOneOfTheEntitlementPresent((UserDetails)($contextMap.get("UserContext")),"TASK_MANAGER"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your completeActivityFee Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/workflow/process/%7BSampleFeeCalculation%7DFeeCalculation/start") == true )
+          eval(checkOneOfTheEntitlementPresent((UserDetails)($contextMap.get("UserContext")),"FEE_CALCULATION"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+rule "Your completeActivityFee negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/workflow/process/%7BSampleFeeCalculation%7DFeeCalculation/start") == true )
+          eval(!checkOneOfTheEntitlementPresent((UserDetails)($contextMap.get("UserContext")),"FEE_CALCULATION"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+         logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your Fee Balance Search Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/accountingbalance/feebalance") == true )
+          eval(checkOneOfTheEntitlementPresent((UserDetails)($contextMap.get("UserContext")),"FEE_CALCULATION"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+rule "Your Fee Balance Negative Search Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/accountingbalance/feebalance") == true )
+          eval(!checkOneOfTheEntitlementPresent((UserDetails)($contextMap.get("UserContext")),"FEE_CALCULATION"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your uploadGiveUpResponse Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/giveUpResponse") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your uploadGiveInResponse Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/giveInResponse") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your uploadGiveInCancelRequest Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/giveInCancelRequest") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+
+/* Rules For ODataProxyService */
+rule "Your filterData Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("api/odata/filter") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your filterData negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/odata/filter") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+/* Rules For OData*/
+rule "Your OData Rule for Regular User" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource") == 'OData')
+          eval(!checkProfilePresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("OData Resource Access Granted - Regular User");
+end
+
+rule "Your uploadAccountingBalanceFile Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+   		  eval($contextMap.get("Resource").toString().contains("fileadminrest/upload/accountingbalance") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"ACCOUNTINGBALANCE_UPLOAD"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your uploadAccountingBalanceFile negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("fileadminrest/upload/accountingbalance") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"ACCOUNTINGBALANCE_UPLOAD"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+rule "Your accountingBalanceTemporal Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+   		  eval($contextMap.get("Resource").toString().contains("api/node/accountingbalancetemporal/search") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"ACCOUNTINGBALANCE_TEMPORAL"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your accountingBalanceTemporal negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/node/accountingbalancetemporal/search") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"ACCOUNTINGBALANCE_TEMPORAL"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+rule "Your accountingBalanceReplay Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+   		  eval($contextMap.get("Resource").toString().contains("api/node/accountingbalancetemporal/startreplay") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"ACCOUNTINGBALANCE_REPLAY"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your accountingBalanceReplay negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/node/accountingbalancetemporal/startreplay") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"ACCOUNTINGBALANCE_REPLAY"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+rule "Your accountingBalanceResetEngine Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+   		  eval($contextMap.get("Resource").toString().contains("api/node/accountingbalancetemporal/restartaccountingbalanceengine") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"ACCOUNTINGBALANCE_RESTART_ENGINE"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your accountingBalanceResetEngine negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/node/accountingbalancetemporal/restartaccountingbalanceengine") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"ACCOUNTINGBALANCE_RESTART_ENGINE"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+rule "Your uploadTradableInstruments Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/tradableInstrument") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"INSTRUMENT_ADD"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your uploadTradableInstruments negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/tradableInstrument") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"INSTRUMENT_ADD"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your validationRule Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/validationRule") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your validationRule negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/validationRule") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your feeCalculationAlgorithmUpload Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/feeCalculationAlgorithm") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your feeCalculationAlgorithmUpload negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/feeCalculationAlgorithm") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your thresholdUpload Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/threshold") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your thresholdUpload negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/threshold") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your feeRateRuleUpload Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/feeRateRule") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your feeRateRuleUpload negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/feeRateRule") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your uploadInstrument Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/instrument") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your uploadInstrument negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/instrument") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your uploadOrder Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/order") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your uploadOrder negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/order") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your uploadAllocation Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/allocation") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your uploadAllocation negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/allocation") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your uploadCountry Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/country") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your uploadCountry negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/country") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your uploadRuleAttributes Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/rule/attribute") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your uploadRuleAttributes negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/rule/attribute") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your uploadAccount Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/account") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your uploadAccount negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/account") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your uploadEntity Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/entity") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your uploadEntity negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/entity") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your uploadTrader Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/trader") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your uploadTrader negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/trader") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your uploadDesk Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/desk") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your uploadDesk negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/desk") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your uploadExternalSystem Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/externalSystem") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your uploadExternalSystem negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/externalSystem") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your uploadMatchingSet Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/matchingSet") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your uploadMatchingSet negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/matchingSet") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your uploadMatchingStrategyRule Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/matchingStrategyRule") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your uploadMatchingStrategyRule negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/matchingStrategyRule") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your uploadAlertMatchingSet Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/alertMatchingSet") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your uploadClearingDetailsResponse Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/clearingDetailsResponse") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your uploadAlertMatchingSet negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/alertMatchingSet") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your uploadClearingRule Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/clearingRule") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your uploadClearingRule negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/clearingRule") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your uploadGroup Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/group") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your uploadGroup negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/group") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your uploadLegalEntityRole Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/legalEntityRole") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your uploadLegalEntityRole negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/legalEntityRole") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your uploadEntityRelationship Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/entityRelationship") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your uploadEntityRelationship negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/entityRelationship") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+
+rule "Your uploadBalanceScheme Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/balanceSchemes") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your uploadBalanceScheme negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/balanceSchemes") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your uploadAccountingKeyStructure Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/accountingKeyStructure") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your uploadAccountingKeyStructure negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/accountingKeyStructure") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your uploadAccountingKeyStructureMapping Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/accountingKeyStructureMapping") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your uploadAccountingKeyStructureMapping negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/accountingKeyStructureMapping") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your uploadBalanceRule Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/balanceRules") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your uploadBalanceRule negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/balanceRules") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+/* Rules for AdminRest */
+rule "Your doPersist gateway Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("node/doPersist") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your doPersist gateway negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("node/doPersist") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+
+rule "Your saveMetadata gateway Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("node/saveMetadata") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your saveMetadata gateway negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("node/saveMetadata") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+
+rule "Your get exchanges gateway Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("node/exchange") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your get exchanges gateway negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("node/exchange") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+
+rule "Your get instruments gateway Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("node/instrument") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your get instruments gateway negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("node/instrument") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your get enum Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("api/enums") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your get ccps gateway Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("node/ccp") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your get ccps gateway negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("node/ccp") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+
+rule "Your get accounts gateway Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("account/get") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your get accounts gateway negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("account/get") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Upload AssetMovement Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("upload/assetMovement") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Upload AssetMovement negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("account/get") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your uploadDepot Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/depot") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your uploadDepot negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/depot") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your uploadEventReason Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/eventReason") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your uploadEventReason negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/eventReason") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your startGateway Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("adminrest/startgateway") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NODE_ADMIN"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your startGateway negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("adminrest/startgateway") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NODE_ADMIN"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+
+rule "Your startNewNodes Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("adminrest/startnewnodes") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NODE_ADMIN"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your startNewNodes negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("adminrest/startnewnodes") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NODE_ADMIN"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+
+rule "Your dashboardStorag Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("adminrest/dashboardStorag") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NODE_ADMIN"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+
+rule "Your shutdownGateway Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("adminrest/shutdownGateway") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NODE_ADMIN"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your shutdownGateway negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("adminrest/shutdownGateway") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NODE_ADMIN"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your filenames Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("adminrest/files") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your filenames negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("adminrest/files") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your uploadTradeFile Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("adminrest/upload/trade") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"TRADE_ADD"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+rule "Your Dashboard Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("api/userConfiguration/dashboardStorage") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+rule "Your uploadTradeFile negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("adminrest/upload/trade") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"TRADE_ADD"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your sayHello Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("/helloWorld") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Your sayHello negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("/helloWorld") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Protecting websocket endpoint" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("websocket") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+rule "Your MatchingSetMetadata Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("api/userConfiguration/getMatchingSetMetadata") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+rule "Your Negative MatchingSetMetadata Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/userConfiguration/getMatchingSetMetadata") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+rule "Your getViewConfig Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("api/userConfiguration/getViewConfig") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+rule "Your Negative getViewConfig Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/userConfiguration/getViewConfig") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+rule "My Upload Referential" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("api/upload/referential") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+rule "My Negative Upload Referential" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/upload/referential") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your RuleAttribute Positive Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("api/upload/rule/attribute") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+rule "Your Negative RuleAttribute Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/upload/rule/attribute") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your unitOfMeasure Positive Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("api/upload/unitOfMeasure") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+rule "Your Negative unitOfMeasure Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/upload/unitOfMeasure") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+/*rule "Your insertInstrument Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("sampleGateway/insertInstrument") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"INSTRUMENT_ADD"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+rule "Your insertInstrument Negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("sampleGateway/insertInstrument") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"INSTRUMENT_ADD"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+rule "Your First Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("sampleGateway/getInstrumentPre") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext"))," ReferentialManagement", " LEO_SERVICES_AUTHORIZATION_1"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+rule "Your Negative Rule" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("sampleGateway/getInstrumentPre") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext"))," ReferentialManagement", " LEO_SERVICES_AUTHORIZATION_1"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+rule "Access Control Check User Level" salience 90
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("sampleGateway/getInstrumentPre") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext"))," ReferentialManagement", " LEO_SERVICES_AUTHORIZATION_1"))
+          eval(!checkProfilePresent((UserDetails)($contextMap.get("UserContext")),"leoAdmin"))
+    then
+          logger.debug("Resource Access Control check Obligation written set user level access");
+          //set a row level expression to check if entities tenancy should have user set to current user
+          evaluationResultBuilder.withSliceAccessibleRows("input.createdByUser.userId == '" + ((UserDetails)$contextMap.get("UserContext")).getTenacyDetails().getUserId() + "'",OptionInstrument.class);
+end
+rule "Access Control Check Dept Admin" salience 90
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("sampleGateway/getInstrumentPre") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext"))," ReferentialManagement", " LEO_SERVICES_AUTHORIZATION_1"))
+          eval(checkProfilePresent((UserDetails)($contextMap.get("UserContext")),"leoAdmin"))
+    then
+          logger.debug("Resource Access Control check Obligation written set dept level access");
+          //set a row level expression to check if entities tenancy should have dept set to dept id for this user
+          logger.debug("Dept ID is :" + ((UserDetails)$contextMap.get("UserContext")).getTenacyDetails().getDeptId());
+          logger.debug("Expression being added is : " + "input.createdByUser.deptId == '" + ((UserDetails)$contextMap.get("UserContext")).getTenacyDetails().getDeptId() + "'");
+          evaluationResultBuilder.withSliceAccessibleRows("input.createdByUser.deptId == '" + ((UserDetails)$contextMap.get("UserContext")).getTenacyDetails().getDeptId() + "'",OptionInstrument.class);
+
+end*/
+
+rule "Rule startProcessWithParams Positive" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("api/entityManagement/startProcessWithParams") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+rule "Rule startProcessWithParams Negative" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/entityManagement/startProcessWithParams") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Rule entityRunOperation Positive" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("api/entityManagement/runOperation") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Rule entityRunOperation Negative" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/entityManagement/runOperation") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Rule upload exchangeRate Positive" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("api/upload/exchangeRate") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Rule upload exchangeRate Negative" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/upload/exchangeRate") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Rule upload taskAction Positive" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("api/upload/taskAction") == true )
+		  eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+	then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Rule upload reconciliationSettings Positive" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("api/upload/reconciliationSettings") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Rule upload taskAction Negative" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/upload/taskAction") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Rule upload taskResolution Positive" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("api/upload/taskResolution") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Rule upload taskResolution Negative" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/upload/taskResolution") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Rule upload taskRule Positive" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("api/upload/taskRule") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Rule upload taskRule Negative" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/upload/taskRule") == true )
+		  eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Rule upload aggregationMethod Positive" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("api/upload/aggregationMethod") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Rule upload aggregationMethod Negative" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/upload/aggregationMethod") == true )
+		  eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Rule upload reconciliationSettings Negative" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/upload/reconciliationSettings") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Rule group create Positive" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("api/group/create") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Rule  group create Negative" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/group/create") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Your upload destination instruction rule " salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("upload/destinationInstruction") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Rules table view Positive" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("api/rules/*/table") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Rules table view Negative" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/rules/*/table") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Functional Context list Positive" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("api/functionalcontext/list") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Functional Context list Negative" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/functionalcontext/list") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end
+
+rule "Functional Context contexttorule Positive" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+    	  eval($contextMap.get("Resource").toString().contains("api/functionalcontext/contexttorule") == true )
+          eval(checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.AFFIRMATIVE);
+          logger.debug("Resource Access Granted");
+end
+
+rule "Functional Context contexttorule Negative" salience 100
+    when  SecurityEvaluationContext($contextMap : contextMap)
+          eval($contextMap.get("Resource").toString().contains("api/functionalcontext/contexttorule") == true )
+          eval(!checkEntitlementsPresent((UserDetails)($contextMap.get("UserContext")),"NX_PUBLIC"))
+    then
+          evaluationResultBuilder.withDecision(Decision.NEGATIVE);
+          logger.warn($contextMap.get("Resource") + "Access not granted");
+end

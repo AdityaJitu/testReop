@@ -1,0 +1,105 @@
+{  
+   "widgets":[  
+      {  
+         "id":"TotalTradesWidget",
+         "position":{  
+            "y":1,
+            "x":2
+         },
+         "title":"Total Trades",
+         "style":{  
+            "color":"white"
+         },
+         "widgetUserPreferences":{  
+            "title":"Total Trades",
+            "resultType":"totalTrades",
+            "filter":""
+         },
+         "size":{  
+            "height":3,
+            "width":3
+         }
+      },
+       {
+           "id":"TradeStatisticWidget",
+           "position":{
+               "y":3,
+               "x":3
+           },
+           "title":"Clearing Status",
+           "style":{
+               "color":"white"
+           },
+           "widgetUserPreferences":{
+               "title":"Clearing Status",
+               "resultType":"tradeNumbers",
+               "filter":""
+           },
+           "size":{
+               "height":3,
+               "width":3
+           }
+       },
+      {  
+         "id":"TaskWidget",
+         "position":{  
+            "y":1,
+            "x":1
+         },
+         "title":"All Open Tasks",
+         "style":{  
+            "color":"white"
+         },
+         "widgetUserPreferences":{  
+            "title":"All Open Tasks",
+            "resultType":"openExceptions",
+            "filter":""
+         },
+         "size":{  
+            "height":3,
+            "width":3
+         }
+      },
+      {  
+         "id":"TotalEquityWidget",
+         "position":{  
+            "y":1,
+            "x":3
+         },
+         "title":"Total Equity & OTE",
+         "style":{  
+            "color":"white"
+         },
+         "widgetUserPreferences":{  
+            "chartType":"bar",
+            "title":"Total Equity & OTE",
+            "resultType":"totalEquity",
+            "filter":""
+         },
+         "size":{  
+            "height":3,
+            "width":6
+         }
+      },
+      {  
+         "id":"CashBalanceWidget",
+         "position":{  
+            "y":3,
+            "x":1
+         },
+         "title":"Cash Balance",
+         "style":{  
+            "color":"white"
+         },
+         "widgetUserPreferences":{  
+            "title":"Cash Balance",
+            "resultType":"cashBalance",
+            "filter":""
+         },
+         "size":{  
+            "height":3,
+            "width":6
+         }
+      }
+   ]
+}

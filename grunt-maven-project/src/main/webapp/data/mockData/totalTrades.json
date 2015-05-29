@@ -1,0 +1,22 @@
+{
+    "kendoConfig":{
+        "title": {
+            "text": "Total Trades"
+        },
+        "series": [
+            {
+                "categoryField": "category",
+                "data": [
+                    {
+                        "category": "Allocated",
+                        "value": 35
+                    },
+                    {
+                        "category": "Unallocated",
+                        "value": 25
+                    }
+                ]
+            }
+        ]
+    }
+}

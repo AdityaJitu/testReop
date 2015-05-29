@@ -1,0 +1,22 @@
+{
+    "kendoConfig":{
+        "title": {
+            "text": "Cash Balance (in USD)"
+        },
+        "series": [
+            {
+                "categoryField": "category",
+                "data": [
+                    {
+                        "category": "Fees",
+                        "value": 100
+                    },
+                    {
+                        "category": "Realized P&L",
+                        "value": -191.70
+                    }
+                ]
+            }
+        ]
+    }
+}

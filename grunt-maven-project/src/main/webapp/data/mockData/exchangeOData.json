@@ -1,0 +1,23 @@
+{
+    "d" : {
+        "results" : [
+            {
+                "__metadata" : {
+                    "uri" : "http://localhost:8080/nodecontrolleripp/OData.svc/Exchange('CME')", "type" : "ptp.Exchange"
+                }, "Flow" : 0, "Uuid" : "4", "Deleted" : "0", "Code" : "CME", "OpeningTime" : "\/Date(55800000)\/", "SourceSystemId" : "GMI", "Created" : "1400136184411005", "MessageId" : null, "Id" : "1", "Prev" : "3", "ClosingTime" : "\/Date(34200000)\/", "TimeZone" : "America/Chicago", "CountryCode" : "IND", "Word0" : "0", "Word1" : "0"
+            }, {
+                "__metadata" : {
+                    "uri" : "http://localhost:8080/nodecontrolleripp/OData.svc/Exchange('CME2')", "type" : "ptp.Exchange"
+                }, "Flow" : 0, "Uuid" : "2", "Deleted" : "0", "Code" : "CME2", "OpeningTime" : "\/Date(23400000)\/", "SourceSystemId" : "dasd", "Created" : "1400136088184008", "MessageId" : null, "Id" : "2", "Prev" : "0", "ClosingTime" : "\/Date(104400000)\/", "TimeZone" : "Pacific/Midway", "CountryCode" : "dfsf", "Word0" : "0", "Word1" : "0"
+            }, {
+                "__metadata" : {
+                    "uri" : "http://localhost:8080/nodecontrolleripp/OData.svc/Exchange('EUREX')", "type" : "ptp.Exchange"
+                }, "Flow" : 0, "Uuid" : "5", "Deleted" : "0", "Code" : "EUREX", "OpeningTime" : null, "SourceSystemId" : "EUREX", "Created" : "1400147954050011", "MessageId" : "271e7b83-7444-4c70-ad63-a2ad328cc326", "Id" : "3", "Prev" : "0", "ClosingTime" : null, "TimeZone" : null, "CountryCode" : "02", "Word0" : "0", "Word1" : "0"
+            }, {
+                "__metadata" : {
+                    "uri" : "http://localhost:8080/nodecontrolleripp/OData.svc/Exchange('SGX')", "type" : "ptp.Exchange"
+                }, "Flow" : 0, "Uuid" : "6", "Deleted" : "0", "Code" : "SGX", "OpeningTime" : null, "SourceSystemId" : "SGX", "Created" : "1400147954050026", "MessageId" : "4f049e1a-fd97-49ef-9f69-f2b3d82db194", "Id" : "4", "Prev" : "0", "ClosingTime" : null, "TimeZone" : null, "CountryCode" : "03", "Word0" : "0", "Word1" : "0"
+            }
+        ]
+    }
+}

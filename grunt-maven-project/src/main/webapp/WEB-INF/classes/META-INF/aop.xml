@@ -1,0 +1,15 @@
+<aspectj>
+    <aspects>
+        <aspect name="com.sungard.cm.ptp.security.aspect.SecurityCoreAroundAspect"/>
+    </aspects>
+  
+ <weaver>
+	<include within="com.sungard.cm.ptp.security.aspect.*" />
+	<include within="com.sungard.cm.ptp.services.gatewaycontroller.rs.*" />
+	<include within="com.sungard.cm.ptp.services.gatewaycontroller.AdminRest" />
+	<include within="com.sungard.cm.ptp.security.aspect.*" />
+	<include within="com.sungard.cm.ptp.web.services.ODataProxyService" />
+	<include within="com.sungard.cm.ptp.web.services.IppService" />
+	<include within="com.sungard.cm.ptp.web.services.UserConfigService" />
+</weaver>
+</aspectj>

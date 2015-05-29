@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+  <display-name>Archetype Created Web Application</display-name>
+  <context-param>
+    <description>SECURITY FEATURE FLAG</description>
+    <param-name>SECURITYFEATUREFLAG</param-name>
+    <param-value>true</param-value>
+  </context-param>
+  <filter>
+    <filter-name>gzipFilter</filter-name>
+    <filter-class>org.mortbay.servlet.GzipFilter</filter-class>
+    <async-supported>true</async-supported>
+    <init-param>
+      <param-name>mimeTypes</param-name>
+      <param-value>application/javascript,application/json</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>gzipFilter</filter-name>
+    <url-pattern>/api/*</url-pattern>
+  </filter-mapping>
+  <filter>
+ <filter-name>WebSSOFilter</filter-name>
+ <!-- START : To Make security off comment below part -->
+ <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+ <!-- END : To Make security off -->
+
+ <!-- START : To Make security off uncomment below part -->
+ <!-- <filter-class>com.sungard.cm.ptp.iafdemo.websso.providers.WebSSOMockEnableAndDisableFilter</filter-class>
+ 	  <async-supported>true</async-supported> -->
+ <!-- END : To Make security off -->
+
+ <!-- START : To Make security off comment below part -->
+<init-param>
+  <description>
+   Sets Spring bean id of the WebSSOFilter  to use.
+  </description>
+  <param-name>ssoFilter</param-name>
+  <param-value>WebSSOFilter</param-value>
+ </init-param>
+  <!-- END : To Make security off -->
+
+ <init-param>
+  <description>
+   Tells the filter to use the standard Filter.init &amp; Filter.destory methods (if set to true)</description>
+  <param-name>targetFilterLifecycle</param-name>
+  <param-value>true</param-value>
+ </init-param>
+</filter>
+<!-- START : To Make security off comment below part -->
+<!-- <filter-mapping>
+<filter-name>WebSSOFilter</filter-name>
+<url-pattern>/*</url-pattern>
+</filter-mapping> -->
+<!-- END : To Make security off -->
+  <filter-mapping>
+    <filter-name>WebSSOFilter</filter-name>
+    <url-pattern>/api/upload/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>WebSSOFilter</filter-name>
+    <url-pattern>/api/navigationMenu/*</url-pattern>
+  </filter-mapping>
+   <filter-mapping>
+    <filter-name>WebSSOFilter</filter-name>
+    <url-pattern>/logOff</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>WebSSOFilter</filter-name>
+    <url-pattern>/api/adminrest/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>WebSSOFilter</filter-name>
+    <url-pattern>/api/fileadminrest/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>WebSSOFilter</filter-name>
+    <url-pattern>/acs/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>WebSSOFilter</filter-name>
+    <url-pattern>/app/index.html</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>WebSSOFilter</filter-name>
+    <url-pattern>/api/userConfiguration/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>WebSSOFilter</filter-name>
+    <url-pattern>/websocket/*</url-pattern>
+  </filter-mapping>
+  <filter>
+       <filter-name>ExpiresFilter</filter-name>
+       <filter-class>org.apache.catalina.filters.ExpiresFilter</filter-class>
+       <init-param>
+          <param-name>ExpiresByType text/html</param-name>
+          <param-value>access plus 0 seconds</param-value>
+       </init-param>
+   </filter>
+  <filter>
+    <filter-name>SecurityCoreAroundFilter</filter-name>
+    <filter-class>com.sungard.cm.ptp.security.aspect.SecurityCoreAroundFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>SecurityCoreAroundFilter</filter-name>
+    <url-pattern>/api/upload/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>SecurityCoreAroundFilter</filter-name>
+    <url-pattern>/api/adminrest/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>SecurityCoreAroundFilter</filter-name>
+    <url-pattern>/api/odata/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>SecurityCoreAroundFilter</filter-name>
+    <url-pattern>/api/workflow/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>SecurityCoreAroundFilter</filter-name>
+    <url-pattern>/api/userConfiguration/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>SecurityCoreAroundFilter</filter-name>
+    <url-pattern>/api/node/accountingbalancetemporal/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>SecurityCoreAroundFilter</filter-name>
+    <url-pattern>/api/feebalance/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>SecurityCoreAroundFilter</filter-name>
+    <url-pattern>/websocket/*</url-pattern>
+  </filter-mapping>
+
+  <filter>
+    <filter-name>Resteasy</filter-name>
+    <filter-class>
+            org.jboss.resteasy.plugins.server.servlet.FilterDispatcher
+        </filter-class>
+    <async-supported>true</async-supported>
+  </filter>
+  <filter-mapping>
+    <filter-name>Resteasy</filter-name>
+    <url-pattern>/api/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>JarResourceFilter</filter-name>
+    <filter-class>
+           com.sungard.cm.ptp.web.utils.JarResourceFilter
+       </filter-class>
+       <async-supported>true</async-supported>
+  </filter>
+  <filter-mapping>
+    <filter-name>JarResourceFilter</filter-name>
+    <url-pattern>/iafCore/*</url-pattern>
+  </filter-mapping>
+   <filter>
+        <filter-name>compressingFilter</filter-name>
+        <filter-class>com.planetj.servlet.filter.compression.CompressingFilter</filter-class>
+        <init-param>
+            <param-name>includeContentTypes</param-name>
+            <param-value>text/html,text/plain,text/xml,application/xhtml+xml,text/css,application/javascript,image/svg+xml,application/json,application/x-javascript,text/javascript,application/x-font-woff,image/png</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>compressingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>encodingFilter</filter-name>
+        <filter-class>com.sungard.cm.ptp.web.utils.CharsetFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+       <filter-name>ExpiresFilterByType</filter-name>
+       <filter-class>org.apache.catalina.filters.ExpiresFilter</filter-class>
+       <init-param>
+          <param-name>ExpiresByType image</param-name>
+          <param-value>modification plus 0 seconds</param-value>
+       </init-param>
+       <init-param>
+          <param-name>ExpiresByType text/css</param-name>
+          <param-value>modification plus 0 seconds</param-value>
+       </init-param>
+       <init-param>
+          <param-name>ExpiresByType application/javascript</param-name>
+          <param-value>modification plus 0 seconds</param-value>
+       </init-param>
+       <init-param>
+          <param-name>ExpiresByType application/json</param-name>
+          <param-value>modification plus 0 seconds</param-value>
+       </init-param>
+       <init-param>
+          <param-name>ExpiresByType text/plain</param-name>
+          <param-value>modification plus 0 seconds</param-value>
+       </init-param>
+       <init-param>
+          <param-name>ExpiresByType application/x-font-woff</param-name>
+          <param-value>modification plus 0 seconds</param-value>
+       </init-param>
+       <init-param>
+          <param-name>ExpiresByType text/html</param-name>
+          <param-value>modification plus 0 seconds</param-value>
+       </init-param>
+    </filter>
+    <filter-mapping>
+       <filter-name>ExpiresFilterByType</filter-name>
+       <url-pattern>/*</url-pattern>
+       <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+       <filter-name>ExpiresFilter</filter-name>
+       <url-pattern>/app/index.html</url-pattern>
+       <dispatcher>REQUEST</dispatcher>
+   </filter-mapping>
+   <filter-mapping>
+       <filter-name>ExpiresFilter</filter-name>
+       <url-pattern>/app</url-pattern>
+       <dispatcher>REQUEST</dispatcher>
+   </filter-mapping>
+  <listener>
+    <listener-class>com.sungard.cm.ptp.services.gatewaycontroller.startup.StartupListener</listener-class>
+  </listener>
+  <listener>
+    <listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
+  </listener>
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:applicationContext.xml,classpath*:com/sungard/cs/SPIContext.xml,classpath*:com/sungard/**/*Context.xml</param-value>
+  </context-param>
+  <listener>
+    <listener-class>org.jboss.resteasy.plugins.spring.SpringContextLoaderListener</listener-class>
+  </listener>
+</web-app>

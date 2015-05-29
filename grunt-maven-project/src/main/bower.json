@@ -1,0 +1,29 @@
+{
+    "name": "genNext",
+    "description": "Modular Dependencies for Next Generation Application",
+    "version" : "0.1.0",
+    "main": "app/main.js",
+    "license": "",
+    "ignore": [
+        "api",
+        "app/vendor",
+        "data",
+        "doc",
+        "node_modules",
+        "test",
+        "karma.conf.js",
+        "Gruntfile.js",
+        "package.json"
+    ],
+    "keywords": "",
+    "authors": "",
+    "homepage": "",
+    "repository": {
+        "type": "",
+        "url": ""
+    },
+    "dependencies": {
+        "jquery": "1.11.1",
+        "angular": "1.2.24"
+    }
+}
