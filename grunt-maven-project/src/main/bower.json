@@ -1,7 +1,8 @@
 {
     "name": "genNext",
     "description": "Modular Dependencies for Next Generation Application",
-    "version" : "0.3.0"build 123,
+    "version" : "0.14.0",
+    "buildNumber":"build#125",
     "main": "app/main.js",
     "license": "",
     "ignore": [
