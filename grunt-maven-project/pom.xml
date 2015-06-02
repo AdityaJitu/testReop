@@ -12,6 +12,7 @@
 
 <properties>
 <build.number>${bambooBuildNumber}</build.number>
+<version.type>${versionType}</version.type>
 </properties>
 
 	<dependencies>
@@ -44,10 +45,15 @@
 				<version>1.5.0</version>
 				<configuration>
 				<sourceDirectory>${basedir}/src/main</sourceDirectory>
+				<excludedResources>
+				<excludedResource>java/**/*</excludedResource>
+				</excludedResources>
 						<jsSourceDirectory>/</jsSourceDirectory>
         				<warSourceExcludes>jsSourceDirectory/**</warSourceExcludes>
         	<gruntOptions>
-        	 <gruntOption>--buildnumber=${build.number}</gruntOption>
+        	 <gruntOption>--buildNumber=${build.number}</gruntOption>
+        	 <gruntOption>--versionType=${version.type}</gruntOption>
+        	  <gruntOption>--verbose</gruntOption>
         	</gruntOptions>
 				</configuration>
 				<executions>
